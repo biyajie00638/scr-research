@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" fill="none">
+  <rect width="600" height="200" rx="8" fill="#f0f4f8"/>
+  <rect x="1" y="1" width="598" height="198" rx="7" stroke="#c0c8d0" stroke-width="2" stroke-dasharray="8 4"/>
+  <text x="300" y="90" text-anchor="middle" fill="#888" font-size="16" font-family="Microsoft YaHei,sans-serif">📷 CFD 模拟结果图片</text>
+  <text x="300" y="120" text-anchor="middle" fill="#aaa" font-size="12" font-family="Microsoft YaHei,sans-serif">请将图片放入 public/images/ 目录</text>
+  <text x="300" y="140" text-anchor="middle" fill="#aaa" font-size="12" font-family="Microsoft YaHei,sans-serif">并在此页面引用</text>
+</svg>
