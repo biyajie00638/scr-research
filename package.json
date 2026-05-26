@@ -1,0 +1,24 @@
+{
+  "name": "scr-research-site",
+  "version": "1.0.0",
+  "description": "SCR脱硝系统CFD研究 - 固定式工业SCR系统流量验证与催化剂分析",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "keywords": [
+    "SCR",
+    "CFD",
+    "脱硝",
+    "催化剂",
+    "尿素喷射"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "isomorphic-git": "^1.38.2",
+    "katex": "^0.17.0",
+    "markdown-it-katex": "^2.0.3",
+    "vitepress": "^1.6.4"
+  }
+}
