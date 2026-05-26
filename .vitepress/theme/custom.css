@@ -1,0 +1,58 @@
+/* 自定义样式 */
+:root {
+  --vp-c-brand-1: #2563eb;
+  --vp-c-brand-2: #3b82f6;
+  --vp-c-brand-3: #1d4ed8;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+  margin-right: 6px;
+}
+
+.tag-blue {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.tag-orange {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.tag-green {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* 研究卡片 */
+.research-card {
+  background: var(--vp-c-bg-soft);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 16px 0;
+  border: 1px solid var(--vp-c-divider);
+}
+
+.research-card h3 {
+  margin-top: 0;
+}
+
+.research-card table {
+  display: table;
+  width: 100%;
+}
+
+/* 首页 hero 图片 */
+.VPHero .image-container {
+  max-width: 320px;
+}
+
+.VPHero .image-bg {
+  opacity: 0.15;
+}
