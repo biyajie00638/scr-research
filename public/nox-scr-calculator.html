@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>柴油机 NOx 标定与 SCR 前馈计算工具 V1</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --card:#ffffff; --line:#d9e0ea; --text:#1f2937; --muted:#6b7280;
+    --accent:#2563eb; --ok:#0f766e; --warn:#b45309; --bad:#b91c1c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--text)}
+  .wrap{max-width:1200px;margin:24px auto;padding:0 16px}
+  h1{font-size:28px;margin:0 0 8px}
+  .sub{color:var(--muted);margin-bottom:20px;line-height:1.6}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .card{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(20,30,50,.05)}
+  .col-6{grid-column:span 6}
+  .col-4{grid-column:span 4}
+  .col-8{grid-column:span 8}
+  .col-12{grid-column:span 12}
+  @media (max-width:900px){.col-6,.col-4,.col-8{grid-column:span 12}}
+  h2{font-size:20px;margin:0 0 12px}
+  h3{font-size:16px;margin:14px 0 8px}
+  .group{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media (max-width:700px){.group{grid-template-columns:1fr}}
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  input, select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  button{padding:10px 16px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-size:14px;cursor:pointer}
+  button.secondary{background:#475569}
+  button.light{background:#e5eefc;color:#1847b6}
+  .hint{font-size:12px;color:var(--muted);line-height:1.6}
+  .pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;margin-right:8px}
+  .pill.ok{background:#dcfce7;color:#166534}
+  .pill.warn{background:#fef3c7;color:#92400e}
+  .pill.bad{background:#fee2e2;color:#991b1b}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media (max-width:900px){.kpi{grid-template-columns:1fr}}
+  .k{border:1px solid var(--line);border-radius:12px;padding:14px}
+  .kv{font-size:28px;font-weight:700;margin-top:8px}
+  .small{font-size:12px;color:var(--muted)}
+  .formula{background:#f8fafc;border:1px dashed var(--line);padding:12px;border-radius:10px;font-family:Consolas,monospace;font-size:13px;line-height:1.7;overflow:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+  th{background:#f8fafc}
+  .foot{margin-top:16px;color:var(--muted);font-size:12px;line-height:1.7}
+  .warnbox{border-left:4px solid var(--warn);background:#fff7ed;padding:12px;border-radius:8px}
+  .okbox{border-left:4px solid var(--ok);background:#ecfeff;padding:12px;border-radius:8px}
+  /* 返回链接 */
+  .back-link{display:inline-block;margin-bottom:16px;color:var(--accent);text-decoration:none;font-size:14px}
+  .back-link:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="/">&larr; 返回首页</a>
+  <h1>柴油机 NOx 排放标定与 SCR 前馈计算工具</h1>
+  <div class="sub">
+    当前版本针对你目前可获取的信号设计：<b>NOx ppm、实时功率、进气压力、进气温度、排气温度</b>。<br>
+    因为暂时没有进气流量计与 O₂ 信号，本工具采用<b>估算模式</b>：先估算空气流量与排气流量，再计算 NOx 质量流、比排放和尿素前馈参考值。
+  </div>
+
+  <div class="grid">
+    <div class="card col-6">
+      <h2>1. 实时输入</h2>
+      <div class="group">
+        <div>
+          <label>NOx 浓度（ppm，按 NO₂ 当量）</label>
+          <input id="nox_ppm" type="number" value="650" step="1">
+        </div>
+        <div>
+          <label>实时功率 P（kW）</label>
+          <input id="power_kw" type="number" value="120" step="0.1">
+        </div>
+        <div>
+          <label>O₂ 含量（%vol）</label>
+          <input id="o2_pct" type="number" value="8.0" step="0.1">
+        </div>
+        <div>
+          <label>进气绝压 Pin（kPa abs）</label>
+          <input id="pin_kpa" type="number" value="180" step="0.1">
+        </div>
+        <div>
+          <label>进气温度 Tin（°C）</label>
+          <input id="tin_c" type="number" value="45" step="0.1">
+        </div>
+        <div>
+          <label>排气温度 Texh（°C）</label>
+          <input id="texh_c" type="number" value="360" step="0.1">
+        </div>
+        <div>
+          <label>发动机转速 n（rpm）</label>
+          <input id="rpm" type="number" value="1500" step="1">
+        </div>
+      </div>
+      <div class="foot">说明：这里的进气压力建议填<b>增压后进气歧管绝压</b>。如果现场拿到的是表压，请先换算为绝压。</div>
+    </div>
+
+    <div class="card col-6">
+      <h2>2. 发动机与估算参数</h2>
+      <div class="group">
+        <div>
+          <label>总排量 Vd（L）</label>
+          <input id="disp_l" type="number" value="7.2" step="0.1">
+        </div>
+        <div>
+          <label>四冲程/二冲程</label>
+          <select id="stroke_factor">
+            <option value="2" selected>四冲程（每2转一次进气）</option>
+            <option value="1">二冲程（每1转一次进气）</option>
+          </select>
+        </div>
+        <div>
+          <label>充气效率 ηv（0~1）</label>
+          <input id="eta_v" type="number" value="0.90" step="0.01">
+        </div>
+        <div>
+          <label>比油耗 be（g/kWh）</label>
+          <input id="bsfc" type="number" value="210" step="1">
+        </div>
+        <div>
+          <label>排气标准密度 ρexh,N（kg/Nm³）</label>
+          <input id="rho_exh_n" type="number" value="1.28" step="0.01">
+        </div>
+        <div>
+          <label>排气水蒸气体积分数 xH₂O</label>
+          <input id="xh2o" type="number" value="0.10" step="0.01">
+        </div>
+        <div>
+          <label>ANR（NH₃/NOx）</label>
+          <input id="anr" type="number" value="0.95" step="0.01">
+        </div>
+        <div>
+          <label>DEF 浓度（质量分数）</label>
+          <input id="def_mass_frac" type="number" value="0.325" step="0.001">
+        </div>
+        <div>
+          <label>DEF 密度（kg/L）</label>
+          <input id="def_density" type="number" value="1.09" step="0.01">
+        </div>
+        <div>
+          <label>NOx 分子量（g/mol）</label>
+          <input id="m_nox" type="number" value="46.01" step="0.01">
+        </div>
+        <div>
+          <label>参考氧 O₂ref（%）</label>
+          <input id="o2_ref" type="number" value="5.0" step="0.1">
+        </div>
+      </div>
+      <div class="foot">建议：后续拿到机组专属数据后，把 <b>排量、转速、ηv、be</b> 改成实际值或分段表。</div>
+    </div>
+
+    <div class="card col-12">
+      <div class="row">
+        <button onclick="calc()">计算</button>
+        <button class="secondary" onclick="fillDemo()">载入示例</button>
+        <button class="light" onclick="exportJson()">导出参数 JSON</button>
+        <button class="light" onclick="importJson()">导入参数 JSON</button>
+      </div>
+      <div class="hint" style="margin-top:10px;">
+        当前工具已支持 <b>O₂ 参考氧修正</b>；输出包括估算湿基、估算干基、参考氧修正浓度，以及基于估算排气流量得到的 NOx 质量流、比排放、DEF 前馈参考值。
+      </div>
+    </div>
+
+    <div class="card col-12">
+      <h2>3. 计算结果</h2>
+      <div id="quality"></div>
+      <div class="kpi" style="margin-top:12px;">
+        <div class="k">
+          <div class="small">湿基质量浓度 Cwet</div>
+          <div class="kv" id="out_cwet">-</div>
+          <div class="small">mg/Nm³</div>
+        </div>
+        <div class="k">
+          <div class="small">干基质量浓度 Cdry</div>
+          <div class="kv" id="out_cdry">-</div>
+          <div class="small">mg/Nm³</div>
+        </div>
+        <div class="k">
+          <div class="small">参考氧修正浓度 Cref</div>
+          <div class="kv" id="out_cref">-</div>
+          <div class="small">mg/Nm³ @ O₂ref</div>
+        </div>
+        <div class="k">
+          <div class="small">估算排气流量 Qexh,N</div>
+          <div class="kv" id="out_qexh">-</div>
+          <div class="small">Nm³/h</div>
+        </div>
+        <div class="k">
+          <div class="small">NOx 质量流 mNOx</div>
+          <div class="kv" id="out_mnox">-</div>
+          <div class="small">g/h</div>
+        </div>
+        <div class="k">
+          <div class="small">NOx 比排放 ENOx</div>
+          <div class="kv" id="out_enox">-</div>
+          <div class="small">g/kWh</div>
+        </div>
+        <div class="k">
+          <div class="small">DEF 前馈参考量</div>
+          <div class="kv" id="out_def">-</div>
+          <div class="small">L/h</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col-8">
+      <h2>4. 中间计算明细</h2>
+      <table>
+        <thead>
+          <tr><th>项目</th><th>结果</th><th>说明</th></tr>
+        </thead>
+        <tbody id="detailRows"></tbody>
+      </table>
+    </div>
+
+    <div class="card col-4">
+      <h2>5. 当前方法边界</h2>
+      <div class="warnbox">
+        <b>当前结果属于工程估算值</b><br><br>
+        主要限制：
+        <ul>
+          <li>虽有 O₂，可做参考氧折算，但准确性仍受排气流量估算影响</li>
+          <li>没有进气流量计，空气流量靠排量+压力+温度+ηv 估算</li>
+          <li>没有燃油流量，燃油量靠比油耗估算</li>
+          <li>排气标准密度、水蒸气体积分数为估算参数</li>
+        </ul>
+      </div>
+      <div class="okbox" style="margin-top:12px;">
+        <b>下一阶段建议增加</b>
+        <ul>
+          <li>O₂ 或空燃比信号</li>
+          <li>进气/排气流量测量</li>
+          <li>ECU 燃油率</li>
+          <li>机组专属 be 与 ηv 标定表</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card col-12">
+      <h2>6. 采用公式</h2>
+      <div class="formula">
+Cwet (mg/Nm³) = NOx_ppm × 46.01 / 22.414  ≈ NOx_ppm × 2.053
+
+Cdry (mg/Nm³) = Cwet / (1 - xH2O)
+
+Cref (mg/Nm³ @ O₂ref) = Cdry × (20.9 - O₂ref) / (20.9 - O₂)
+
+Qair,act (m³/h) = ηv × (Vd(m³) × rpm × 60 / stroke_factor)
+
+ρin (kg/m³) = Pin(Pa) / (287 × Tin(K))
+
+m_air (kg/h) = ρin × Qair,act
+
+m_fuel (kg/h) = P(kW) × be(g/kWh) / 1000
+
+m_exh (kg/h) = m_air + m_fuel
+
+Qexh,N (Nm³/h) = m_exh / ρexh,N
+
+m_NOx (g/h) = Cref × Qexh,N / 1000
+
+E_NOx (g/kWh) = m_NOx / P
+
+n_NOx (mol/h) = m_NOx / M_NOx
+
+n_NH3 (mol/h) = ANR × n_NOx
+
+m_DEF (g/h) = [n_NH3 × 60.06 / 2] / w_DEF
+
+V_DEF (L/h) = m_DEF / (ρDEF × 1000)
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function $(id){ return document.getElementById(id); }
+function val(id){ return parseFloat($(id).value); }
+function fmt(n, d=2){
+  if(!isFinite(n)) return '-';
+  return Number(n).toLocaleString('zh-CN', {maximumFractionDigits:d, minimumFractionDigits:d});
+}
+function setText(id, txt){ $(id).textContent = txt; }
+
+function qualityTag(score, text, cls){
+  return `<span class="pill ${cls}">${text}</span>`;
+}
+
+function calc(){
+  const nox_ppm = val('nox_ppm');
+  const power_kw = val('power_kw');
+  const o2_pct = val('o2_pct');
+  const pin_kpa = val('pin_kpa');
+  const tin_c = val('tin_c');
+  const texh_c = val('texh_c');
+  const rpm = val('rpm');
+  const disp_l = val('disp_l');
+  const stroke_factor = parseFloat($('stroke_factor').value);
+  const eta_v = val('eta_v');
+  const bsfc = val('bsfc');
+  const rho_exh_n = val('rho_exh_n');
+  const xh2o = val('xh2o');
+  const anr = val('anr');
+  const def_mass_frac = val('def_mass_frac');
+  const def_density = val('def_density');
+  const m_nox = val('m_nox');
+  const o2_ref = val('o2_ref');
+
+  let warnings = [];
+  if(power_kw <= 0) warnings.push('功率必须大于 0。');
+  if(o2_pct <= 0 || o2_pct >= 20.5) warnings.push('O₂ 含量超出合理范围，参考氧修正可能失真。');
+  if(o2_ref < 0 || o2_ref >= 20.5) warnings.push('参考氧设置不合理。');
+  if(pin_kpa < 80 || pin_kpa > 400) warnings.push('进气绝压看起来偏离常规范围，请确认是否填的是绝压。');
+  if(eta_v <= 0 || eta_v > 1.2) warnings.push('充气效率建议在 0~1.0 附近。');
+  if(xh2o < 0 || xh2o >= 0.3) warnings.push('水蒸气体积分数建议在 0~0.2 范围内。');
+  if(bsfc < 150 || bsfc > 320) warnings.push('比油耗看起来偏离常见柴油机区间，请确认。');
+  if(texh_c < 180) warnings.push('排气温度偏低，SCR 实际喷射通常需再判断温度窗口。');
+
+  const K = 46.01 / 22.414;  // 2.053
+  const cwet = nox_ppm * K;
+  const cdry = cwet / (1 - xh2o);
+  const cref = cdry * ((20.9 - o2_ref) / (20.9 - o2_pct));
+
+  const vd_m3 = disp_l / 1000.0;
+  const qair_act_m3h = eta_v * (vd_m3 * rpm * 60 / stroke_factor);
+  const tin_k = tin_c + 273.15;
+  const rho_in = (pin_kpa * 1000) / (287 * tin_k);
+  const m_air = rho_in * qair_act_m3h;
+
+  const m_fuel = power_kw * bsfc / 1000.0;
+  const m_exh = m_air + m_fuel;
+  const qexh_n = m_exh / rho_exh_n;
+
+  const m_nox_gh = cref * qexh_n / 1000.0;
+  const e_nox = m_nox_gh / power_kw;
+
+  const n_nox_molph = m_nox_gh / m_nox;
+  const n_nh3_molph = anr * n_nox_molph;
+  const m_def_gh = (n_nh3_molph * 60.06 / 2.0) / def_mass_frac;
+  const v_def_lh = m_def_gh / (def_density * 1000.0);
+
+  setText('out_cwet', fmt(cwet,1));
+  setText('out_cdry', fmt(cdry,1));
+  setText('out_cref', fmt(cref,1));
+  setText('out_qexh', fmt(qexh_n,1));
+  setText('out_mnox', fmt(m_nox_gh,1));
+  setText('out_enox', fmt(e_nox,2));
+  setText('out_def', fmt(v_def_lh,2));
+
+  let gradeHtml = '';
+  if(warnings.length === 0) gradeHtml = qualityTag(0,'估算模式 C 级','warn') + qualityTag(0,'输入检查通过','ok');
+  else gradeHtml = qualityTag(0,'估算模式 C 级','warn') + qualityTag(0,'存在需确认参数','bad');
+  $('quality').innerHTML = gradeHtml + (warnings.length ? `<div class="foot" style="margin-top:8px;">${warnings.map(x=>'• '+x).join('<br>')}</div>` : '');
+
+  const rows = [
+    ['ppm→湿基常数 K', fmt(K,3), '默认按 NO₂ 当量、0°C、101.325kPa'],
+    ['湿基质量浓度 Cwet', fmt(cwet,2)+' mg/Nm³', '由 NOx ppm 直接换算'],
+    ['干基质量浓度 Cdry', fmt(cdry,2)+' mg/Nm³', '按 xH₂O 估算干基'],
+    ['参考氧修正浓度 Cref', fmt(cref,2)+' mg/Nm³ @ O₂ref', '按实测 O₂ 与参考氧 O₂ref 修正'],
+    ['理论进气体积流量', fmt(qair_act_m3h,2)+' m³/h', '按排量、转速、四冲程、ηv 估算'],
+    ['进气密度 ρin', fmt(rho_in,3)+' kg/m³', '按绝压与温度估算'],
+    ['空气质量流 m_air', fmt(m_air,2)+' kg/h', '进气体积流量 × 进气密度'],
+    ['燃油质量流 m_fuel', fmt(m_fuel,2)+' kg/h', '按功率与比油耗估算'],
+    ['排气质量流 m_exh', fmt(m_exh,2)+' kg/h', 'm_air + m_fuel'],
+    ['标准排气流量 Qexh,N', fmt(qexh_n,2)+' Nm³/h', '排气质量流 / 标准密度'],
+    ['NOx 质量流 m_NOx', fmt(m_nox_gh,2)+' g/h', 'Cref × Qexh,N / 1000'],
+    ['NOx 比排放 E_NOx', fmt(e_nox,3)+' g/kWh', 'm_NOx / P'],
+    ['NOx 摩尔流 n_NOx', fmt(n_nox_molph,3)+' mol/h', '供 SCR 前馈用'],
+    ['NH₃ 需求摩尔流', fmt(n_nh3_molph,3)+' mol/h', 'ANR × n_NOx'],
+    ['DEF 参考喷射量', fmt(v_def_lh,3)+' L/h', '仅作前馈参考']
+  ];
+  $('detailRows').innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+}
+
+function fillDemo(){
+  $('nox_ppm').value = 700;
+  $('power_kw').value = 120;
+  $('o2_pct').value = 8.0;
+  $('pin_kpa').value = 185;
+  $('tin_c').value = 42;
+  $('texh_c').value = 365;
+  $('rpm').value = 1500;
+  $('disp_l').value = 7.2;
+  $('eta_v').value = 0.90;
+  $('bsfc').value = 210;
+  $('rho_exh_n').value = 1.28;
+  $('xh2o').value = 0.10;
+  $('anr').value = 0.95;
+  $('def_mass_frac').value = 0.325;
+  $('def_density').value = 1.09;
+  $('m_nox').value = 46.01;
+  $('o2_ref').value = 5.0;
+  calc();
+}
+
+function exportJson(){
+  const data = {
+    nox_ppm: $('nox_ppm').value, power_kw: $('power_kw').value, o2_pct: $('o2_pct').value, pin_kpa: $('pin_kpa').value,
+    tin_c: $('tin_c').value, texh_c: $('texh_c').value, rpm: $('rpm').value, disp_l: $('disp_l').value,
+    stroke_factor: $('stroke_factor').value, eta_v: $('eta_v').value, bsfc: $('bsfc').value,
+    rho_exh_n: $('rho_exh_n').value, xh2o: $('xh2o').value, anr: $('anr').value,
+    def_mass_frac: $('def_mass_frac').value, def_density: $('def_density').value, m_nox: $('m_nox').value, o2_ref: $('o2_ref').value
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'nox_scr_calc_config.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function importJson(){
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.json,application/json';
+  inp.onchange = e => {
+    const f = e.target.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const d = JSON.parse(reader.result);
+        Object.keys(d).forEach(k => { if($(k)) $(k).value = d[k]; });
+        calc();
+      }catch(err){
+        alert('JSON 读取失败，请检查文件格式。');
+      }
+    };
+    reader.readAsText(f, 'utf-8');
+  };
+  inp.click();
+}
+
+calc();
+</script>
+</body>
+</html>
