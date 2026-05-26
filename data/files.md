@@ -17,23 +17,23 @@ SCR 研究相关资料下载，点击文件名即可下载。
 | 文件 | 说明 | 大小 |
 |------|------|------|
 | [scr-control-system-report.pptx](/files/scr-control-system-report.pptx) | SCR 控制系统研发报告 PPT | 12.2 MB |
-| [scr-control-system-report.docx](/files/scr-control-system-report.docx) | SCR 控制系统研发报告 Word | 17 KB |
-| [scr-nox-sensor-nh3-slip.docx](/files/scr-nox-sensor-nh3-slip.docx) | 基于 NOx 传感器估算氨逃逸方案 | 27 KB |
-| [dual-sensor-nh3-slip.docx](/files/dual-sensor-nh3-slip.docx) | 前后双传感器差值法计算氨逃逸 | 13 KB |
-| [software-nh3-slip-calculation.docx](/files/software-nh3-slip-calculation.docx) | 软件计算氨逃逸值的方法 | 17 KB |
-| [catalyst-analysis.docx](/files/catalyst-analysis.docx) | 催化剂分析报告 | 14 KB |
-| [catalyst-temperature-analysis.docx](/files/catalyst-temperature-analysis.docx) | 催化剂温度分析 | 174 KB |
-| [control-logic.docx](/files/control-logic.docx) | SCR 系统控制逻辑 | 38 KB |
-| [system-analysis.docx](/files/system-analysis.docx) | SCR 系统整体分析 | 14 KB |
+| [scr-control-system-report.pdf](/files/scr-control-system-report.pdf) | SCR 控制系统研发报告 PDF | 110 KB |
+| [scr-nox-sensor-nh3-slip.pdf](/files/scr-nox-sensor-nh3-slip.pdf) | 基于 NOx 传感器估算氨逃逸方案 | 153 KB |
+| [dual-sensor-nh3-slip.pdf](/files/dual-sensor-nh3-slip.pdf) | 前后双传感器差值法计算氨逃逸 | 37 KB |
+| [software-nh3-slip-calculation.pdf](/files/software-nh3-slip-calculation.pdf) | 软件计算氨逃逸值的方法 | 100 KB |
+| [catalyst-analysis.pdf](/files/catalyst-analysis.pdf) | 催化剂分析报告 | 68 KB |
+| [catalyst-temperature-analysis.pdf](/files/catalyst-temperature-analysis.pdf) | 催化剂温度分析 | 403 KB |
+| [control-logic.pdf](/files/control-logic.pdf) | SCR 系统控制逻辑 | 116 KB |
+| [system-analysis.pdf](/files/system-analysis.pdf) | SCR 系统整体分析 | 94 KB |
 
 ## 硬件与工程文档
 
 | 文件 | 说明 | 大小 |
 |------|------|------|
-| [nozzle-design.docx](/files/nozzle-design.docx) | 尿素喷射喷头设计 | 181 KB |
-| [nozzle-installation-analysis.docx](/files/nozzle-installation-analysis.docx) | 喷头安装方式对比分析 | 82 KB |
-| [dp-flow-error-analysis.docx](/files/dp-flow-error-analysis.docx) | 压差式流量检测误差分析 | 15 KB |
-| [long-pipeline-error-analysis.docx](/files/long-pipeline-error-analysis.docx) | 长管路喷射量误差分析 | 120 KB |
+| [nozzle-design.pdf](/files/nozzle-design.pdf) | 尿素喷射喷头设计 | 710 KB |
+| [nozzle-installation-analysis.pdf](/files/nozzle-installation-analysis.pdf) | 喷头安装方式对比分析 | 95 KB |
+| [dp-flow-error-analysis.pdf](/files/dp-flow-error-analysis.pdf) | 压差式流量检测误差分析 | 103 KB |
+| [long-pipeline-error-analysis.pdf](/files/long-pipeline-error-analysis.pdf) | 长管路喷射量误差分析 | 282 KB |
 
 ## 数据表格
 
