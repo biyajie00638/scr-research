@@ -22,6 +22,7 @@ export default defineConfig({
       { text: '项目', link: '/projects/scr-nz001' },
       { text: '研究', link: '/research/critical-flow' },
       { text: '系统', link: '/system/catalyst' },
+      { text: '工具', link: '/nox-scr-calculator.html' },
       { text: '下载', link: '/data/files' },
     ],
 
