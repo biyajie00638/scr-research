@@ -209,5 +209,5 @@ NOx_Up_Delay = 上游NOx延迟队列输出
 ---
 
 ::: info 附：PPT 演示文稿
-完整的 PPT 演示文稿已包含在网站中：[下载 SCR控制系统研发报告.pptx](/scr-control-system-report.pptx)
+SCR 控制系统研发报告 PPT（12.5MB），由于文件较大未上传至网站，如有需要请联系获取。
 :::
