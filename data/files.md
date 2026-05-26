@@ -70,3 +70,4 @@ SCR 研究相关资料下载，点击文件名即可下载。
 | [laval-nozzle-cross-section.html](/laval-nozzle-cross-section.html) | 拉瓦尔喷头截面参数交互展示 |
 | [scr-nozzle-angle-comparison.html](/scr-nozzle-angle-comparison.html) | SCR 喷嘴轴向角度对比分析 |
 | [laval_nozzle_drawing.html](/laval_nozzle_drawing.html) | 拉瓦尔喷嘴设计图 |
+| [nox-scr-calculator.html](/nox-scr-calculator.html) | 柴油机 NOx 排放标定与 SCR 前馈计算工具 |
