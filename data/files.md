@@ -25,6 +25,12 @@ SCR 研究相关资料下载，点击文件名即可下载。
 | [catalyst-temperature-analysis.pdf](/files/catalyst-temperature-analysis.pdf) | 催化剂温度分析 | 403 KB |
 | [control-logic.pdf](/files/control-logic.pdf) | SCR 系统控制逻辑 | 116 KB |
 | [system-analysis.pdf](/files/system-analysis.pdf) | SCR 系统整体分析 | 94 KB |
+| [bodoan-3mw-scr-control-system.pdf](/files/bodoan-3mw-scr-control-system.pdf) | 博多安3MW机组SCR控制系统 | 141 KB |
+| [how-to-calculate-engine-exhaust-flow.pdf](/files/how-to-calculate-engine-exhaust-flow.pdf) | 计算发动机排气流量方法 | 70 KB |
+| [calibration-interface-design.pdf](/files/calibration-interface-design.pdf) | 标定界面设计 | 51 KB |
+| [diesel-engine-nox-field-calibration-guide.pdf](/files/diesel-engine-nox-field-calibration-guide.pdf) | 柴油发动机NOx排放现场标定作业指导书 | 81 KB |
+| [two-engineering-estimation-methods.pdf](/files/two-engineering-estimation-methods.pdf) | 两种工程估算方法 | 69 KB |
+| [soft-sensor-alternative-technical-approach.pdf](/files/soft-sensor-alternative-technical-approach.pdf) | 软测量替代硬件测量的技术途径 | 93 KB |
 
 ## 硬件与工程文档
 
