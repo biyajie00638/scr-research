@@ -1,63 +1,39 @@
 import { defineConfig } from 'vitepress'
-import katex from 'markdown-it-katex'
 
+// https://vitepress.dev/reference/site-config
 export default defineConfig({
-  lang: 'zh-CN',
+  base: '/',
   title: 'SCR脱硝系统CFD研究',
-  description: '固定式工业SCR系统 - 喉道临界流、气液两相雾化、尿素喷射冷区分析',
+  description: '固定式工业SCR系统流场分析与优化 - 喉道临界流、气液两相雾化、尿素喷射冷区管理',
+  lang: 'zh-CN',
   ignoreDeadLinks: true,
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css' }]
+    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css' }],
   ],
-
   markdown: {
-    lineNumbers: true,
-    config: (md) => {
-      md.use(katex)
-    }
+    math: true,
   },
 
   themeConfig: {
-    search: {
-      provider: 'local',
-      options: {
-        translations: {
-          button: { buttonText: '搜索文档' },
-          modal: {
-            displayDetails: '显示详情',
-            resetButtonTitle: '清除',
-            backButtonTitle: '返回',
-            noResultsText: '未找到相关结果',
-            footer: { selectText: '选择', navigateText: '切换' }
-          }
-        }
-      }
-    },
-
+    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
       { text: '项目', link: '/projects/scr-nz001' },
       { text: '研究', link: '/research/critical-flow' },
       { text: '系统', link: '/system/catalyst' },
-      { text: '数据', link: '/data/visualization' },
-      { text: '下载', link: '/data/files' }
+      { text: '下载', link: '/data/files' },
     ],
 
     sidebar: {
       '/projects/': [
         {
-          text: 'SCR项目',
+          text: '项目文档',
           items: [
-            { text: 'SCR_NZ001 项目概述', link: '/projects/scr-nz001' },
-            { text: 'CFD 流量验证', link: '/projects/cfd-validation' },
-            { text: '参数准备', link: '/projects/parameter-prep' }
-          ]
-        },
-        {
-          text: '控制系统',
-          items: [
-            { text: '控制系统研发', link: '/projects/control-system' }
+            { text: 'SCR_NZ001 概述', link: '/projects/scr-nz001' },
+            { text: 'CFD流量验证', link: '/projects/cfd-validation' },
+            { text: '参数准备', link: '/projects/parameter-prep' },
+            { text: '控制系统', link: '/projects/control-system' },
           ]
         }
       ],
@@ -66,65 +42,51 @@ export default defineConfig({
           text: '核心研究',
           items: [
             { text: '喉道临界流', link: '/research/critical-flow' },
-            { text: '气液两相雾化模拟', link: '/research/atomization' },
-            { text: '尿素喷射与冷区分析', link: '/research/urea-injection' },
-            { text: '氨逃逸与NOx控制', link: '/research/nh3-nox' }
-          ]
-        },
-        {
-          text: '算法方案',
-          items: [
-            { text: 'NOx传感器估算氨逃逸', link: '/research/nh3-slip-estimation' }
+            { text: '气液两相雾化', link: '/research/atomization' },
+            { text: '尿素喷射分析', link: '/research/urea-injection' },
+            { text: '氨逃逸与NOx', link: '/research/nh3-nox' },
+            { text: '氨逃逸估算方法', link: '/research/nh3-slip-estimation' },
           ]
         }
       ],
       '/system/': [
         {
-          text: '系统与催化剂',
+          text: '系统组件',
           items: [
-            { text: 'Cu-SCR 催化剂', link: '/system/catalyst' },
-            { text: '气助式尿素喷射系统', link: '/system/air-assist' }
-          ]
-        },
-        {
-          text: '硬件设计',
-          items: [
-            { text: '喷嘴设计与安装', link: '/system/nozzle-design' }
+            { text: '催化剂分析', link: '/system/catalyst' },
+            { text: '气助式喷射', link: '/system/air-assist' },
+            { text: '喷嘴设计', link: '/system/nozzle-design' },
           ]
         }
       ],
-      '/data/': [
-        {
-          text: '数据可视化',
-          items: [
-            { text: '模拟结果展示', link: '/data/visualization' }
-          ]
-        },
-        {
-          text: '测试数据',
-          items: [
-            { text: '催化剂台架测试数据', link: '/data/catalyst-test-data' }
-          ]
-        },
-        {
-          text: '资料下载',
-          items: [
-            { text: '文件下载', link: '/data/files' }
-          ]
-        }
-      ]
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com' }
+      { icon: 'github', link: 'https://github.com/biyajie00638/scr-research' }
     ],
 
-    docFooter: { prev: '上一页', next: '下一页' },
-    outlineTitle: '目录',
+    search: {
+      provider: 'local',
+    },
 
     footer: {
-      message: 'SCR脱硝系统CFD分析 · 固定式工业SCR系统研究',
-      copyright: 'Copyright © 2026'
-    }
-  }
+      message: 'SCR脱硝系统CFD研究',
+      copyright: 'Copyright 2026 SCR Research',
+    },
+
+    outline: {
+      level: [2, 3],
+      label: '页面导航',
+    },
+
+    docFooter: {
+      prev: '上一页',
+      next: '下一页',
+    },
+
+    editLink: {
+      pattern: 'https://github.com/biyajie00638/scr-research/edit/main/:path',
+      text: '在 GitHub 上编辑此页',
+    },
+  },
 })
