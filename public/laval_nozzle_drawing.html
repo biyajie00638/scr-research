@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>拉瓦尔雾化喷头工程图 — SCR尿素喷射系统</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #e8e8e8; font-family: "SimHei", "Microsoft YaHei", Arial, sans-serif; }
+  .page {
+    width: 297mm; min-height: 210mm;
+    background: #fff;
+    margin: 10mm auto;
+    padding: 8mm;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    position: relative;
+  }
+  /* 图框 */
+  .frame-outer { border: 2px solid #000; width: 100%; height: 100%; min-height: 192mm; position: relative; }
+  .frame-inner { border: 0.5px solid #000; margin: 5mm; min-height: 182mm; position: relative; }
+
+  /* 标题栏 */
+  .title-block {
+    position: absolute; bottom: 0; right: 0;
+    border-top: 1px solid #000; border-left: 1px solid #000;
+    width: 120mm;
+  }
+  .title-row { display: flex; border-bottom: 0.5px solid #000; }
+  .title-cell {
+    border-right: 0.5px solid #000; padding: 1mm 2mm;
+    font-size: 8pt; color: #000; line-height: 1.4;
+  }
+  .title-cell:last-child { border-right: none; }
+  .title-cell.label { color: #666; font-size: 7pt; }
+  .title-cell.val { font-weight: bold; font-size: 9pt; }
+  .title-cell.wide { flex: 2; }
+  .title-cell.narrow { flex: 1; }
+  .title-cell.mid { flex: 1.5; }
+
+  /* 技术要求区 */
+  .tech-req {
+    position: absolute; bottom: 0; left: 0;
+    width: 68mm; padding: 2mm;
+    border-top: 0.5px solid #aaa;
+  }
+  .tech-req h4 { font-size: 8.5pt; margin-bottom: 1.5mm; border-bottom: 0.5px solid #000; padding-bottom: 1mm; }
+  .tech-req ol { padding-left: 4mm; font-size: 7.5pt; line-height: 1.8; color: #111; }
+
+  /* 参数表 */
+  .param-table {
+    position: absolute; bottom: 42mm; left: 0;
+    width: 68mm;
+  }
+  .param-table table { width: 100%; border-collapse: collapse; font-size: 7.5pt; }
+  .param-table table th { background: #f0f0f0; border: 0.5px solid #888; padding: 1mm 2mm; text-align: center; }
+  .param-table table td { border: 0.5px solid #888; padding: 1mm 2mm; }
+
+  /* 主图区 */
+  .drawing-area {
+    position: absolute;
+    top: 5mm; left: 70mm; right: 5mm;
+    bottom: 30mm;
+  }
+
+  /* 视图标题 */
+  .view-label { font-size: 8pt; font-weight: bold; text-align: center; margin-bottom: 1mm; letter-spacing: 1px; }
+
+  @media print {
+    body { background: none; }
+    .page { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="frame-outer">
+<div class="frame-inner">
+
+<!-- ===== 主绘图区 ===== -->
+<div class="drawing-area">
+  <div class="view-label">A—A 剖视图（主视图，1:1）</div>
+  <svg viewBox="0 0 480 550" width="100%" style="max-height:168mm; display:block; margin:0 auto;">
+    <defs>
+      <!-- 剖面线 -->
+      <pattern id="hatch" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="4" stroke="#555" stroke-width="0.5"/>
+      </pattern>
+      <!-- 箭头 -->
+      <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+        <path d="M1 1L7 4L1 7" fill="none" stroke="#000" stroke-width="1" stroke-linecap="round"/>
+      </marker>
+      <marker id="arrR" viewBox="0 0 8 8" refX="1" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M7 1L1 4L7 7" fill="none" stroke="#000" stroke-width="1" stroke-linecap="round"/>
+      </marker>
+      <marker id="dimArr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="4" markerHeight="4" orient="auto">
+        <path d="M1 2L7 4L1 6" fill="#000" stroke="none"/>
+      </marker>
+      <marker id="dimArrR" viewBox="0 0 8 8" refX="1" refY="4" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+        <path d="M7 2L1 4L7 6" fill="#000" stroke="none"/>
+      </marker>
+    </defs>
+
+    <style>
+      text { font-family: "SimHei", Arial, sans-serif; }
+      .dim { font-size: 8px; fill: #000; }
+      .tol { font-size: 6.5px; fill: #000; }
+      .label { font-size: 7.5px; fill: #222; }
+      .note { font-size: 7px; fill: #444; }
+      .bold { font-weight: bold; }
+      .red { fill: #b00; }
+      .cline { stroke: #00a; stroke-width: 0.4; stroke-dasharray: 8 3 2 3; fill: none; }
+      .outline { stroke: #000; stroke-width: 1.2; fill: none; }
+      .thin { stroke: #000; stroke-width: 0.5; fill: none; }
+      .dimline { stroke: #000; stroke-width: 0.4; fill: none; }
+      .leader { stroke: #333; stroke-width: 0.4; fill: none; stroke-dasharray: 3 2; }
+      .hatch { fill: url(#hatch); stroke: #444; stroke-width: 0.3; }
+      .cutbody { fill: #f4f0e8; stroke: #000; stroke-width: 1.2; }
+      .airch { fill: #d5f0e4; stroke: #0a7a44; stroke-width: 0.6; }
+      .liqch { fill: #cfe6f8; stroke: #1a5fa8; stroke-width: 0.6; }
+      .mixch { fill: #b8e4d4; stroke: #0a5a3a; stroke-width: 0.6; }
+      .flow  { fill: #a8ccee; stroke: none; opacity: 0.5; }
+    </style>
+
+    <!-- ========== 中心线 ========== -->
+    <line class="cline" x1="240" y1="8" x2="240" y2="542"/>
+
+    <!-- ========== 喷头本体截面（对称轴x=240）========== -->
+
+    <!-- 接头体（顶部安装区） y=20~100, 外径φ38→图宽76, 内径分区 -->
+    <!-- 左半实体 -->
+    <rect class="cutbody hatch" x="202" y="20" width="18" height="80"/>
+    <!-- 气体通道（左） -->
+    <rect class="airch" x="208" y="26" width="14" height="68"/>
+    <!-- 液体通道（中心） -->
+    <rect class="liqch" x="234" y="26" width="12" height="68"/>
+    <!-- 气体通道（右） -->
+    <rect class="airch" x="258" y="26" width="14" height="68"/>
+    <!-- 右半实体 -->
+    <rect class="cutbody hatch" x="260" y="20" width="18" height="80"/>
+
+    <!-- 外轮廓 -->
+    <rect class="outline" x="202" y="20" width="76" height="80" fill="none"/>
+    <!-- 内分隔线 -->
+    <line class="thin" x1="222" y1="20" x2="222" y2="100"/>
+    <line class="thin" x1="234" y1="20" x2="234" y2="100"/>
+    <line class="thin" x1="246" y1="20" x2="246" y2="100"/>
+    <line class="thin" x1="258" y1="20" x2="258" y2="100"/>
+
+    <!-- 螺纹示意（接头顶部） -->
+    <line class="thin" x1="202" y1="26" x2="278" y2="26"/>
+    <line class="thin" x1="202" y1="32" x2="210" y2="32"/>
+    <line class="thin" x1="270" y1="32" x2="278" y2="32"/>
+    <line class="thin" x1="202" y1="38" x2="210" y2="38"/>
+    <line class="thin" x1="270" y1="38" x2="278" y2="38"/>
+    <!-- 螺纹标注 -->
+    <text class="dim" x="240" y="18" text-anchor="middle">M38×1.5-6H</text>
+
+    <!-- 混合腔（渐缩） y=100~170 -->
+    <!-- 左侧渐缩壁 -->
+    <polygon class="cutbody hatch" points="202,100 202,140 222,170 222,100"/>
+    <!-- 右侧渐缩壁 -->
+    <polygon class="cutbody hatch" points="278,100 278,140 258,170 258,100"/>
+    <!-- 气体汇聚 -->
+    <polygon class="airch" points="208,100 208,132 234,160 234,100"/>
+    <polygon class="airch" points="272,100 272,132 246,160 246,100"/>
+    <!-- 液体延续 -->
+    <rect class="liqch" x="234" y="100" width="12" height="70"/>
+    <!-- 混合区 -->
+    <polygon class="mixch" points="222,160 222,170 258,170 258,160 246,152 234,152" opacity="0.8"/>
+
+    <!-- 混合腔轮廓 -->
+    <path class="outline" d="M202,100 L202,140 L222,170 L258,170 L278,140 L278,100" fill="none"/>
+    <line class="thin" x1="222" y1="100" x2="222" y2="170"/>
+    <line class="thin" x1="258" y1="100" x2="258" y2="170"/>
+    <line class="thin" x1="234" y1="100" x2="234" y2="160"/>
+    <line class="thin" x1="246" y1="100" x2="246" y2="160"/>
+
+    <!-- 收缩段 y=170~280 -->
+    <!-- 左实体 -->
+    <polygon class="cutbody hatch" points="222,170 228,280 222,280"/>
+    <polygon class="cutbody hatch" points="234,170 234,270 228,280 222,280 222,170"/>
+    <!-- 右实体 -->
+    <polygon class="cutbody hatch" points="258,170 252,280 258,280"/>
+    <polygon class="cutbody hatch" points="246,170 246,270 252,280 258,280 258,170"/>
+    <!-- 内流道（收缩） -->
+    <polygon class="mixch" points="234,170 234,270 228,280 252,280 246,270 246,170" opacity="0.7"/>
+
+    <!-- 收缩段轮廓 -->
+    <path class="outline" d="M222,170 L228,280 L252,280 L258,170" fill="none"/>
+    <line class="thin" x1="234" y1="170" x2="228" y2="280"/>
+    <line class="thin" x1="246" y1="170" x2="252" y2="280"/>
+
+    <!-- 喉道 y=280~310 φ2.5→图宽10 -->
+    <!-- 实体 -->
+    <rect class="cutbody hatch" x="222" y="280" width="13" height="30"/>
+    <rect class="cutbody hatch" x="245" y="280" width="13" height="30"/>
+    <!-- 喉道通道 -->
+    <rect class="liqch" x="235" y="280" width="10" height="30"/>
+    <!-- 喉道轮廓 -->
+    <rect class="outline" x="222" y="280" width="36" height="30" fill="none"/>
+    <line class="thin" x1="235" y1="280" x2="235" y2="310"/>
+    <line class="thin" x1="245" y1="280" x2="245" y2="310"/>
+
+    <!-- 喉道中心标记线 -->
+    <line x1="215" y1="295" x2="265" y2="295" stroke="#00a" stroke-width="0.5" stroke-dasharray="6 2"/>
+
+    <!-- 扩张段 y=310~430 -->
+    <!-- 左实体 -->
+    <polygon class="cutbody hatch" points="222,310 210,430 222,430"/>
+    <polygon class="cutbody hatch" points="235,310 222,430 210,430 222,310"/>
+    <!-- 右实体 -->
+    <polygon class="cutbody hatch" points="258,310 270,430 258,430"/>
+    <polygon class="cutbody hatch" points="245,310 258,430 270,430 258,310"/>
+    <!-- 扩张流道 -->
+    <polygon class="flow" points="235,310 222,430 258,430 245,310"/>
+
+    <!-- 扩张段轮廓 -->
+    <path class="outline" d="M222,310 L210,430 L270,430 L258,310" fill="none"/>
+    <line class="thin" x1="235" y1="310" x2="222" y2="430"/>
+    <line class="thin" x1="245" y1="310" x2="258" y2="430"/>
+
+    <!-- 出口端面 -->
+    <line x1="210" y1="430" x2="270" y2="430" stroke="#000" stroke-width="1.5"/>
+
+    <!-- 喷射流束（示意） -->
+    <polygon points="210,430 192,530 240,510 288,530 270,430" fill="#a8d0f0" opacity="0.3"/>
+    <polygon points="222,430 218,530 240,520 262,530 258,430" fill="#70aadd" opacity="0.35"/>
+    <!-- 流束箭头 -->
+    <line x1="240" y1="440" x2="240" y2="525" stroke="#1a5fa8" stroke-width="1" marker-end="url(#arr)"/>
+    <line x1="225" y1="435" x2="213" y2="518" stroke="#1a5fa8" stroke-width="0.7" marker-end="url(#arr)"/>
+    <line x1="255" y1="435" x2="267" y2="518" stroke="#1a5fa8" stroke-width="0.7" marker-end="url(#arr)"/>
+
+    <!-- ========== 尺寸标注 ========== -->
+    <!-- 左侧纵向尺寸链 x=185 -->
+    <!-- 接头区高80 -->
+    <line class="dimline" x1="185" y1="20" x2="185" y2="100" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <line class="dimline" x1="202" y1="20" x2="182" y2="20"/>
+    <line class="dimline" x1="202" y1="100" x2="182" y2="100"/>
+    <text class="dim" x="183" y="60" text-anchor="end">80</text>
+
+    <!-- 混合腔高70 -->
+    <line class="dimline" x1="185" y1="100" x2="185" y2="170" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <line class="dimline" x1="202" y1="170" x2="182" y2="170"/>
+    <text class="dim" x="183" y="135" text-anchor="end">70</text>
+
+    <!-- 收缩段高110 -->
+    <line class="dimline" x1="185" y1="170" x2="185" y2="280" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <line class="dimline" x1="222" y1="280" x2="182" y2="280"/>
+    <text class="dim" x="183" y="225" text-anchor="end">110</text>
+
+    <!-- 喉道长30 -->
+    <line class="dimline" x1="185" y1="280" x2="185" y2="310" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <text class="dim red bold" x="183" y="295" text-anchor="end">30</text>
+
+    <!-- 扩张段高120 -->
+    <line class="dimline" x1="185" y1="310" x2="185" y2="430" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <line class="dimline" x1="210" y1="430" x2="182" y2="430"/>
+    <text class="dim" x="183" y="370" text-anchor="end">120</text>
+
+    <!-- 总高410 -->
+    <line class="dimline" x1="172" y1="20" x2="172" y2="430" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <text class="dim bold" x="170" y="225" text-anchor="end">410</text>
+
+    <!-- 右侧横向尺寸 -->
+    <!-- 外径φ38 -->
+    <line class="dimline" x1="202" y1="12" x2="278" y2="12" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <text class="dim bold" x="240" y="10" text-anchor="middle">φ38 ±0.05</text>
+
+    <!-- 气体通道宽14 -->
+    <line class="dimline" x1="208" y1="50" x2="222" y2="50" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <text class="dim" x="215" y="48" text-anchor="middle">14</text>
+
+    <!-- 液孔φ3 -->
+    <line class="dimline" x1="234" y1="44" x2="246" y2="44" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <text class="dim red bold" x="240" y="42" text-anchor="middle">φ3 +0.02/-0</text>
+
+    <!-- 喉道φ2.5 -->
+    <line class="dimline" x1="235" y1="293" x2="245" y2="293" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <line class="leader" x1="245" y1="293" x2="290" y2="278"/>
+    <text class="dim red bold" x="292" y="276" text-anchor="start">φ2.5 +0/-0.01</text>
+    <text class="tol" x="292" y="285" text-anchor="start">喉道 Ra≤0.4</text>
+
+    <!-- 出口φ4.5 -->
+    <line class="dimline" x1="222" y1="438" x2="258" y2="438" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <text class="dim" x="240" y="446" text-anchor="middle">φ4.5 ±0.02</text>
+
+    <!-- 扩张半角7° -->
+    <path d="M240,310 L250,380" stroke="#333" stroke-width="0.5" fill="none" stroke-dasharray="3 2"/>
+    <line class="leader" x1="250" y1="360" x2="300" y2="350"/>
+    <text class="dim" x="302" y="348" text-anchor="start">扩张半角 7°±0.5°</text>
+
+    <!-- 收缩角（内收缩15°） -->
+    <path d="M240,170 L245,260" stroke="#333" stroke-width="0.5" fill="none" stroke-dasharray="3 2"/>
+    <line class="leader" x1="242" y1="215" x2="300" y2="210"/>
+    <text class="dim" x="302" y="208" text-anchor="start">收缩半角 15°±0.5°</text>
+
+    <!-- 接头肩宽（14+12+14=40内孔区） -->
+    <line class="dimline" x1="208" y1="108" x2="272" y2="108" marker-start="url(#dimArrR)" marker-end="url(#dimArr)"/>
+    <text class="dim" x="240" y="106" text-anchor="middle">内腔宽 40</text>
+
+    <!-- 形位公差框：喉道同轴度 -->
+    <rect x="290" y="295" width="60" height="12" fill="none" stroke="#000" stroke-width="0.5"/>
+    <line x1="310" y1="295" x2="310" y2="307" stroke="#000" stroke-width="0.5"/>
+    <text class="dim" x="300" y="303" text-anchor="middle">⊙</text>
+    <text class="dim red" x="330" y="303" text-anchor="middle">φ0.02</text>
+    <line class="leader" x1="290" y1="301" x2="245" y2="301"/>
+
+    <!-- 形位公差框：液孔同轴度 -->
+    <rect x="290" y="52" width="60" height="12" fill="none" stroke="#000" stroke-width="0.5"/>
+    <line x1="310" y1="52" x2="310" y2="64" stroke="#000" stroke-width="0.5"/>
+    <text class="dim" x="300" y="60" text-anchor="middle">⊙</text>
+    <text class="dim red" x="330" y="60" text-anchor="middle">φ0.03</text>
+    <line class="leader" x1="290" y1="58" x2="246" y2="56"/>
+
+    <!-- 粗糙度标注 -->
+    <!-- 喉道内壁 Ra0.4 已在上方标注 -->
+    <!-- 扩张段内壁 Ra0.8 -->
+    <line class="leader" x1="255" y1="370" x2="305" y2="370"/>
+    <text class="dim" x="307" y="368" text-anchor="start">内壁 Ra≤0.8</text>
+    <!-- 液孔内壁 Ra0.8 -->
+    <line class="leader" x1="234" y1="60" x2="200" y2="72"/>
+    <text class="dim" x="198" y="70" text-anchor="end">Ra≤0.8</text>
+
+    <!-- 剖切符号 -->
+    <text class="bold" x="145" y="25" font-size="10">A</text>
+    <text class="bold" x="145" y="430" font-size="10">A</text>
+
+    <!-- 图名 -->
+    <text font-size="9" font-weight="bold" x="240" y="542" text-anchor="middle" fill="#000">比例 1:1   单位 mm</text>
+  </svg>
+</div><!-- /drawing-area -->
+
+<!-- ===== 参数表 ===== -->
+<div class="param-table" style="left:5mm; bottom:44mm; width:62mm; position:absolute;">
+  <table>
+    <tr><th colspan="2" style="font-size:8pt;">设计参数</th></tr>
+    <tr><td>尿素流量</td><td style="color:#b00;font-weight:bold;">95 L/h</td></tr>
+    <tr><td>雾化气压力</td><td>0.5 MPa</td></tr>
+    <tr><td>气液质量比</td><td>ALR ≈ 0.35</td></tr>
+    <tr><td>液孔直径</td><td style="color:#b00;">φ 3.0 mm</td></tr>
+    <tr><td>喉道直径</td><td style="color:#b00;">φ 2.5 mm</td></tr>
+    <tr><td>出口直径</td><td>φ 4.5 mm</td></tr>
+    <tr><td>扩张半角</td><td>7°</td></tr>
+    <tr><td>目标 SMD</td><td>≤ 80 μm</td></tr>
+  </table>
+</div>
+
+<!-- ===== 技术要求 ===== -->
+<div class="tech-req" style="left:5mm; bottom:5mm; width:62mm; position:absolute;">
+  <h4>技术要求</h4>
+  <ol>
+    <li>材料：316L不锈钢，执行GB/T 20878。</li>
+    <li>喉道（φ2.5）加工精度：H6级，Ra≤0.4，不允许负偏差。</li>
+    <li>扩张段与收缩段内壁 Ra≤0.8，过渡圆弧R≥0.5。</li>
+    <li>液孔与喉道同轴度公差：φ0.03。</li>
+    <li>喉道与扩张段同轴度公差：φ0.02。</li>
+    <li>气体通道两侧对称度≤0.05，保证均匀气流。</li>
+    <li>全部内腔酸洗钝化处理，禁止残留铁屑。</li>
+    <li>出厂前以0.3 MPa气压进行气密性测试，保压5 min无泄漏。</li>
+    <li>接头螺纹M38×1.5-6H，配套密封圈槽。</li>
+    <li>未注公差按 GB/T 1804-m 执行。</li>
+  </ol>
+</div>
+
+<!-- ===== 标题栏 ===== -->
+<div class="title-block">
+  <div class="title-row">
+    <div class="title-cell wide">
+      <div class="label">零件名称</div>
+      <div class="val">气液两相拉瓦尔雾化喷头</div>
+    </div>
+    <div class="title-cell narrow">
+      <div class="label">图号</div>
+      <div class="val">SCR-NZ-001</div>
+    </div>
+  </div>
+  <div class="title-row">
+    <div class="title-cell wide">
+      <div class="label">材料</div>
+      <div class="val">316L 不锈钢</div>
+    </div>
+    <div class="title-cell narrow">
+      <div class="label">比例</div>
+      <div class="val">1:1</div>
+    </div>
+  </div>
+  <div class="title-row">
+    <div class="title-cell wide">
+      <div class="label">用途</div>
+      <div class="val">3MW柴油发电机SCR尿素喷射</div>
+    </div>
+    <div class="title-cell narrow">
+      <div class="label">张数</div>
+      <div class="val">第1张/共1张</div>
+    </div>
+  </div>
+  <div class="title-row">
+    <div class="title-cell mid">
+      <div class="label">设计</div>
+      <div class="val" style="height:6mm;"></div>
+    </div>
+    <div class="title-cell mid">
+      <div class="label">审核</div>
+      <div class="val" style="height:6mm;"></div>
+    </div>
+    <div class="title-cell mid">
+      <div class="label">日期</div>
+      <div class="val">2026-05-19</div>
+    </div>
+  </div>
+  <div class="title-row">
+    <div class="title-cell wide" style="padding:1.5mm 2mm;">
+      <div class="label">备注：本图尺寸以mm为单位，未注公差GB/T 1804-m</div>
+    </div>
+    <div class="title-cell narrow">
+      <div class="label">版本</div>
+      <div class="val">Rev.A</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /frame-inner -->
+</div><!-- /frame-outer -->
+</div><!-- /page -->
+
+<div style="text-align:center; margin:4mm; font-size:9pt; color:#555;">
+  图纸：SCR-NZ-001 &nbsp;|&nbsp; 气液两相拉瓦尔雾化喷头 &nbsp;|&nbsp; 2026-05-19
+  &nbsp;&nbsp;<button onclick="window.print()" style="padding:3px 12px; font-size:9pt; cursor:pointer;">打印/导出PDF</button>
+</div>
+</body>
+</html>
