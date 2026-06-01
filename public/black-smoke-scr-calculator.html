@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>柴油发电机组黑烟净化设计计算工具</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #111827;
+      --accent: #22c55e;
+      --accent-soft: rgba(34,197,94,0.12);
+      --border: #1f2937;
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --danger: #f97373;
+      --font-mono: "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1 span.logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #bbf7d0 0, #22c55e 40%, #14532d 80%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #022c22;
+      font-size: 18px;
+      font-weight: 800;
+      box-shadow: 0 0 25px rgba(34,197,94,0.5);
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(15,23,42,0.9));
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+      border: 1px solid var(--border);
+      box-shadow:
+        0 22px 45px rgba(0,0,0,0.65),
+        0 0 0 1px rgba(148,163,184,0.03);
+      backdrop-filter: blur(16px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.35);
+      color: var(--text-soft);
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 14px 0 6px;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px 12px;
+    }
+
+    label {
+      font-size: 12px;
+      color: var(--text-soft);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, select {
+      background: radial-gradient(circle at top, #020617 0, #020617 55%, #000 100%);
+      border-radius: 8px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 7px 8px;
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.35), 0 0 18px rgba(22,163,74,0.6);
+      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+    }
+
+    input::placeholder {
+      color: rgba(148,163,184,0.5);
+    }
+
+    .addon {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 1px;
+    }
+
+    .route-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 8px;
+    }
+
+    .route-chip input {
+      display: none;
+    }
+
+    .route-chip {
+      position: relative;
+    }
+
+    .route-chip span {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.8);
+      font-size: 12px;
+      color: var(--text-soft);
+      background: radial-gradient(circle at top, rgba(15,23,42,0.9) 0, #020617 70%);
+      transition: all 0.15s;
+    }
+
+    .route-chip span small {
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    .route-chip input:checked + span {
+      border-color: var(--accent);
+      color: #bbf7d0;
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.35), 0 0 20px rgba(22,163,74,0.8);
+      background: radial-gradient(circle at 30% 0%, rgba(74,222,128,0.22) 0, #020617 55%);
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.12s;
+    }
+
+    button.primary {
+      background: radial-gradient(circle at 30% 0%, #bbf7d0 0, #22c55e 35%, #15803d 100%);
+      color: #022c22;
+      box-shadow: 0 14px 30px rgba(21,128,61,0.6);
+    }
+
+    button.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(21,128,61,0.85);
+    }
+
+    button.secondary {
+      background: rgba(15,23,42,0.9);
+      color: var(--text-soft);
+      border: 1px solid rgba(75,85,99,0.9);
+    }
+
+    button.secondary:hover {
+      background: rgba(15,23,42,0.98);
+    }
+
+    .btn-icon {
+      font-size: 15px;
+    }
+
+    .results {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .results-block {
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1px solid rgba(31,41,55,0.9);
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9) 0, rgba(15,23,42,0.98) 40%, #020617 100%);
+      margin-bottom: 10px;
+    }
+
+    .results-block h3 {
+      margin: 0 0 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .results-block h3 span.label {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      color: var(--text-soft);
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px 14px;
+      margin-top: 2px;
+    }
+
+    .result-item {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #d1d5db;
+    }
+
+    .result-item span.key {
+      color: #9ca3af;
+    }
+
+    .route-note {
+      font-size: 12px;
+      color: var(--text-soft);
+      border-radius: 9px;
+      padding: 6px 8px;
+      background: radial-gradient(circle at 0% 0%, rgba(34,197,94,0.16) 0, rgba(15,23,42,0.98) 40%, #020617 100%);
+      border: 1px solid rgba(34,197,94,0.35);
+      margin-top: 6px;
+    }
+
+    .warning {
+      font-size: 11px;
+      color: var(--danger);
+      margin-top: 4px;
+    }
+
+    .badge-route {
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      border: 1px solid rgba(148,163,184,0.5);
+      color: var(--text-soft);
+    }
+
+    .footnote {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 10px;
+    }
+
+    .footnote code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: rgba(15,23,42,0.9);
+      padding: 1px 4px;
+      border-radius: 4px;
+      border: 1px solid rgba(31,41,55,0.9);
+    }
+
+    @media (max-width: 880px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <h1>
+    <span class="logo">PM</span>
+    柴油发电机组黑烟净化设计计算工具
+  </h1>
+  <div class="subtitle">
+    输入机组功率、油耗、排温等参数，快速估算排气流量，并按不同净化路线（DOC+DPF / 电捕焦ESP / 旋风+过滤 / 金属丝网）给出建议体积与尺寸。
+  </div>
+
+  <div class="grid">
+    <!-- 输入区 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          输入参数
+          <span class="pill">ENGINE &amp; ROUTE INPUTS</span>
+        </div>
+      </div>
+
+      <!-- 净化路线选择 -->
+      <div>
+        <div class="section-title">净化路线</div>
+        <div class="hint">选择当前设计打算采用的黑烟治理路线（可切换查看不同方案的计算结果）</div>
+        <div class="route-options">
+          <label class="route-chip">
+            <input type="radio" name="route" value="doc_dpf" checked>
+            <span>DOC + DPF <small>高效颗粒过滤</small></span>
+          </label>
+          <label class="route-chip">
+            <input type="radio" name="route" value="esp">
+            <span>电捕焦 ESP <small>静电除烟</small></span>
+          </label>
+          <label class="route-chip">
+            <input type="radio" name="route" value="cyclone">
+            <span>旋风 + 过滤 <small>物理分离</small></span>
+          </label>
+          <label class="route-chip">
+            <input type="radio" name="route" value="mesh">
+            <span>金属丝网滤芯 <small>低背压准DPF</small></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 发动机参数 -->
+      <div>
+        <div class="section-title">机组基础参数</div>
+        <div class="inputs-grid">
+          <div class="field">
+            <label for="power">额定功率 P<sub>e</sub> [kW]</label>
+            <input id="power" type="number" step="1" min="10" value="150" placeholder="例如 150">
+            <div class="addon">发电机组额定电功率</div>
+          </div>
+
+          <div class="field">
+            <label for="bsfc">比油耗 BSFC [g/kWh]</label>
+            <input id="bsfc" type="number" step="1" min="150" max="300" value="210">
+            <div class="addon">默认 210 g/kWh，可按机组铭牌调整</div>
+          </div>
+
+          <div class="field">
+            <label for="afr">过量空气系数 AFR [-]</label>
+            <input id="afr" type="number" step="0.5" min="10" max="35" value="20">
+            <div class="addon">近似空燃比，满负荷一般 18～22</div>
+          </div>
+
+          <div class="field">
+            <label for="texh">排气温度 T<sub>exh</sub> [℃]</label>
+            <input id="texh" type="number" step="5" min="150" max="600" value="400">
+            <div class="addon">按设计负荷点（例如 75～100%）的真实排温</div>
+          </div>
+
+          <div class="field">
+            <label for="p_exh">排气绝压 p [kPa]</label>
+            <input id="p_exh" type="number" step="1" min="80" max="120" value="101.3">
+            <div class="addon">通常接近大气压 101.3 kPa</div>
+          </div>
+
+          <div class="field">
+            <label for="p_max">发动机允许最大背压 ΔP<sub>max</sub> [kPa]</label>
+            <input id="p_max" type="number" step="0.5" min="5" max="25" value="12">
+            <div class="addon">参考发动机技术手册</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 路线相关参数 -->
+      <div id="route-params">
+        <div class="section-title">路线特征参数</div>
+        <div class="hint">下面参数用于粗略选型，可保持默认值，也可按经验或厂家建议调整。</div>
+
+        <!-- DOC + DPF -->
+        <div class="inputs-grid" id="route-params-doc-dpf">
+          <div class="field">
+            <label for="sv_doc">DOC 空间速度 SV<sub>DOC</sub> [h⁻¹]</label>
+            <input id="sv_doc" type="number" step="5000" min="30000" max="200000" value="100000">
+            <div class="addon">推荐范围 70,000 ～ 120,000 h⁻¹</div>
+          </div>
+          <div class="field">
+            <label for="sv_dpf">DPF 空间速度 SV<sub>DPF</sub> [h⁻¹]</label>
+            <input id="sv_dpf" type="number" step="1000" min="8000" max="30000" value="15000">
+            <div class="addon">推荐范围 10,000 ～ 25,000 h⁻¹</div>
+          </div>
+        </div>
+
+        <!-- ESP -->
+        <div class="inputs-grid" id="route-params-esp" style="display:none;">
+          <div class="field">
+            <label for="sca_esp">目标比集尘面积 SCA [m²/(m³/s)]</label>
+            <input id="sca_esp" type="number" step="0.02" min="0.05" max="0.5" value="0.20">
+            <div class="addon">黑烟控制较严可取 0.20～0.30</div>
+          </div>
+          <div class="field">
+            <label for="eta_esp">期望黑烟可见度改善等级</label>
+            <select id="eta_esp">
+              <option value="0.7">中等（约 70% 可见度改善）</option>
+              <option value="0.85" selected>高（约 85% 可见度改善）</option>
+              <option value="0.93">很高（约 90%+，视工况）</option>
+            </select>
+            <div class="addon">仅作为设计目标提示，不参与核心公式</div>
+          </div>
+        </div>
+
+        <!-- 旋风 + 过滤 -->
+        <div class="inputs-grid" id="route-params-cyclone" style="display:none;">
+          <div class="field">
+            <label for="vf_cyc">过滤表面流速 v<sub>f</sub> [m/s]</label>
+            <input id="vf_cyc" type="number" step="0.1" min="0.5" max="3" value="1.5">
+            <div class="addon">1.0～2.0 m/s 较常见</div>
+          </div>
+          <div class="field">
+            <label for="eta_cyc">目标 PM 去除效率（估算）</label>
+            <select id="eta_cyc">
+              <option value="0.4">基础（约 40%）</option>
+              <option value="0.55" selected>中等（约 50～60%）</option>
+              <option value="0.7">偏高（工况好时 70% 左右）</option>
+            </select>
+            <div class="addon">仅作设计目标提示</div>
+          </div>
+        </div>
+
+        <!-- 金属丝网 -->
+        <div class="inputs-grid" id="route-params-mesh" style="display:none;">
+          <div class="field">
+            <label for="vf_mesh">金属丝网表面流速 v<sub>f,mesh</sub> [m/s]</label>
+            <input id="vf_mesh" type="number" step="0.1" min="1" max="4" value="2.0">
+            <div class="addon">金属丝网通常允许略高表面流速，建议 1.5～3.0 m/s</div>
+          </div>
+          <div class="field">
+            <label for="eta_mesh">目标 PM 去除效率（估算）</label>
+            <select id="eta_mesh">
+              <option value="0.5">基础（约 50%）</option>
+              <option value="0.65" selected>中等（约 60～70%）</option>
+              <option value="0.8">偏高（多层丝网结构）</option>
+            </select>
+            <div class="addon">作为设计目标，用于评价丝网层数/结构是否合理</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 按钮 -->
+      <div class="btn-row">
+        <button class="primary" id="btn-calc">
+          <span class="btn-icon">⚙️</span>
+          计算设计参数
+        </button>
+        <button class="secondary" id="btn-reset">
+          <span class="btn-icon">🧹</span>
+          重置默认
+        </button>
+        <div id="msg" class="warning" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- 输出区 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          计算结果
+          <span class="pill">CALCULATED SIZING &amp; NOTES</span>
+        </div>
+      </div>
+
+      <div class="results" id="results">
+        <div class="results-block">
+          <h3>等待输入<span class="label">Hints</span></h3>
+          <p style="font-size:12px;color:var(--text-soft);margin:4px 0 0;">
+            请输入机组功率等参数后点击 <b>“计算设计参数”</b>。右侧将给出排气质量/体积流量，及所选净化路线的 <b>体积、尺寸建议</b>，方便后续与厂家选型或做进一步优化计算。
+          </p>
+        </div>
+      </div>
+
+      <div class="footnote">
+        说明：本工具采用 <code>BSFC + AFR + 理想气体方程</code> 粗略估算排气流量，DOC/DPF 体积根据 <code>SV = Q<sub>std</sub> / V</code> 反推，
+        以 <code>L ≈ D</code> 假定给出圆柱体尺寸建议。旋风/金属丝网按 <code>A = Q / v<sub>f</sub></code> 估算有效过滤面积。实际工程选型需结合厂家数据、
+        背压曲线和排放测试进一步修正。
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function formatNumber(value, decimals) {
+    if (!isFinite(value)) return '-';
+    return Number(value).toFixed(decimals);
+  }
+
+  function showRouteParams(route) {
+    document.getElementById('route-params-doc-dpf').style.display =
+      route === 'doc_dpf' ? 'grid' : 'none';
+    document.getElementById('route-params-esp').style.display =
+      route === 'esp' ? 'grid' : 'none';
+    document.getElementById('route-params-cyclone').style.display =
+      route === 'cyclone' ? 'grid' : 'none';
+    document.getElementById('route-params-mesh').style.display =
+      route === 'mesh' ? 'grid' : 'none';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const routeRadios = document.querySelectorAll('input[name="route"]');
+    routeRadios.forEach(r => {
+      r.addEventListener('change', () => {
+        showRouteParams(r.value);
+      });
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      document.getElementById('power').value = 150;
+      document.getElementById('bsfc').value = 210;
+      document.getElementById('afr').value = 20;
+      document.getElementById('texh').value = 400;
+      document.getElementById('p_exh').value = 101.3;
+      document.getElementById('p_max').value = 12;
+      document.getElementById('sv_doc').value = 100000;
+      document.getElementById('sv_dpf').value = 15000;
+      document.getElementById('sca_esp').value = 0.20;
+      document.getElementById('eta_esp').value = 0.85;
+      document.getElementById('vf_cyc').value = 1.5;
+      document.getElementById('eta_cyc').value = 0.55;
+      document.getElementById('vf_mesh').value = 2.0;
+      document.getElementById('eta_mesh').value = 0.65;
+      document.getElementById('msg').style.display = 'none';
+      document.getElementById('results').innerHTML = `
+        <div class="results-block">
+          <h3>等待输入<span class="label">Hints</span></h3>
+          <p style="font-size:12px;color:var(--text-soft);margin:4px 0 0;">
+            请输入机组功率等参数后点击 <b>“计算设计参数”</b>。右侧将给出排气质量/体积流量，及所选净化路线的 <b>体积、尺寸建议</b>。
+          </p>
+        </div>`;
+    });
+
+    document.getElementById('btn-calc').addEventListener('click', () => {
+      const msgEl = document.getElementById('msg');
+      msgEl.style.display = 'none';
+      msgEl.textContent = '';
+
+      // 基本输入
+      const P = parseFloat(document.getElementById('power').value);
+      const bsfc = parseFloat(document.getElementById('bsfc').value);
+      const afr = parseFloat(document.getElementById('afr').value);
+      const Texh = parseFloat(document.getElementById('texh').value);
+      const p_kPa = parseFloat(document.getElementById('p_exh').value);
+      const pMax = parseFloat(document.getElementById('p_max').value);
+
+      if (!P || P <= 0 || !bsfc || !afr || !Texh || !p_kPa) {
+        msgEl.textContent = '请检查：功率、比油耗、过量空气系数、排温和压力输入是否正确。';
+        msgEl.style.display = 'block';
+        return;
+      }
+
+      // 选中的路线
+      const route = document.querySelector('input[name="route"]:checked').value;
+
+      // 常数
+      const R = 287;               // J/(kg·K)
+      const p_Pa = p_kPa * 1000;   // Pa
+      const T_K = Texh + 273.15;   // K
+      const T_std = 273.15;
+
+      // 1) 燃油流量 (kg/h, kg/s)
+      const mf_kg_h = P * bsfc / 1000;       // kW * g/kWh /1000 = kg/h
+      const mf_kg_s = mf_kg_h / 3600;
+
+      // 2) 排气质量流量 (kg/s, kg/h)
+      const mexh_kg_s = mf_kg_s * (1 + afr);
+      const mexh_kg_h = mexh_kg_s * 3600;
+
+      // 3) 排气体积流量 (m3/s, m3/h) – 工况点
+      const Q_m3_s = mexh_kg_s * R * T_K / p_Pa;
+      const Q_m3_h = Q_m3_s * 3600;
+
+      // 4) 换算到标准状态体积流量 (m3/h)
+      const Q_std_m3_h = Q_m3_h * (T_std / T_K);
+
+      // DOC + DPF 参数计算
+      let docVol = null, dpfVol = null, docD = null, docL = null, dpfD = null, dpfL = null;
+      // ESP 参数
+      let sca = null, Ac_esp = null;
+      // Cyclone/过滤 参数
+      let vf = null, A_filter = null, D_filter = null;
+      // 金属丝网 参数
+      let vf_mesh = null, A_mesh = null, D_mesh = null;
+
+      if (route === 'doc_dpf') {
+        const sv_doc = parseFloat(document.getElementById('sv_doc').value);
+        const sv_dpf = parseFloat(document.getElementById('sv_dpf').value);
+
+        if (!sv_doc || !sv_dpf || sv_doc <= 0 || sv_dpf <= 0) {
+          msgEl.textContent = 'DOC/DPF 的空间速度 SV 输入不正确。';
+          msgEl.style.display = 'block';
+          return;
+        }
+
+        // V = Q_std / SV
+        docVol = Q_std_m3_h / sv_doc;   // m3
+        dpfVol = Q_std_m3_h / sv_dpf;   // m3
+
+        // 假定 L ≈ D，圆柱体 V = π * D^3 / 4 ⇒ D = (4V/π)^(1/3)
+        const PI = Math.PI;
+        docD = Math.cbrt(4 * docVol / PI); // m
+        docL = docD;
+        dpfD = Math.cbrt(4 * dpfVol / PI); // m
+        dpfL = dpfD;
+      } else if (route === 'esp') {
+        sca = parseFloat(document.getElementById('sca_esp').value);
+        if (!sca || sca <= 0) {
+          msgEl.textContent = '比集尘面积 SCA 输入不正确。';
+          msgEl.style.display = 'block';
+          return;
+        }
+        // A_c = SCA * Q (m2)  – 这里 Q 用 m3/s
+        Ac_esp = sca * Q_m3_s;
+      } else if (route === 'cyclone') {
+        vf = parseFloat(document.getElementById('vf_cyc').value);
+        if (!vf || vf <= 0) {
+          msgEl.textContent = '过滤表面流速 v_f 输入不正确。';
+          msgEl.style.display = 'block';
+          return;
+        }
+        // A_filter = Q / v (m2)
+        A_filter = Q_m3_s / vf;
+        // 圆截面直径
+        D_filter = Math.sqrt(4 * A_filter / Math.PI);
+      } else if (route === 'mesh') {
+        vf_mesh = parseFloat(document.getElementById('vf_mesh').value);
+        if (!vf_mesh || vf_mesh <= 0) {
+          msgEl.textContent = '金属丝网表面流速 v_f,mesh 输入不正确。';
+          msgEl.style.display = 'block';
+          return;
+        }
+        // A_mesh = Q / v_f,mesh (m2)
+        A_mesh = Q_m3_s / vf_mesh;
+        D_mesh = Math.sqrt(4 * A_mesh / Math.PI);  // 等效单筒直径
+      }
+
+      // 背压简单提示
+      let backpressureHint = '';
+      if (route === 'doc_dpf') {
+        if (pMax <= 8) {
+          backpressureHint = '发动机允许背压较低，DPF 选型时需优先考虑低压损产品，并控制 SV_DPF 在 15,000 h⁻¹ 左右或略低。';
+        } else if (pMax <= 15) {
+          backpressureHint = '发动机允许背压在常见范围内，DOC+DPF 合理设计（清洁状态 1～3 kPa）通常可接受。';
+        } else {
+          backpressureHint = '发动机允许背压较高，从背压角度看 DOC+DPF 设计空间较充足。';
+        }
+      } else if (route === 'mesh') {
+        if (pMax <= 8) {
+          backpressureHint = '发动机允许背压偏紧，金属丝网结构建议采用较大通道面积和多筒并联，避免单芯压损过高。';
+        } else {
+          backpressureHint = '金属丝网自身压损相对较低，在合理表面流速下通常可以满足当前背压限制。';
+        }
+      }
+
+      // 构建结果 HTML
+      const resultsEl = document.getElementById('results');
+      let html = '';
+
+      // 通用：排气与燃油
+      html += `
+        <div class="results-block">
+          <h3>机组燃油 &amp; 排气估算<span class="label">BASELINE</span></h3>
+          <div class="results-grid">
+            <div class="result-item"><span class="key">燃油流量：</span>${formatNumber(mf_kg_h, 2)} kg/h (${formatNumber(mf_kg_s, 4)} kg/s)</div>
+            <div class="result-item"><span class="key">排气质量流量：</span>${formatNumber(mexh_kg_h, 2)} kg/h (${formatNumber(mexh_kg_s, 4)} kg/s)</div>
+            <div class="result-item"><span class="key">排气体积流量（工况）：</span>${formatNumber(Q_m3_h, 1)} m³/h (${formatNumber(Q_m3_s, 3)} m³/s)</div>
+            <div class="result-item"><span class="key">排气体积流量（0℃，1 atm）：</span>${formatNumber(Q_std_m3_h, 1)} m³/h</div>
+          </div>
+        </div>
+      `;
+
+      // 路线专属结果
+      if (route === 'doc_dpf') {
+        html += `
+          <div class="results-block">
+            <h3>DOC + DPF 尺寸建议
+              <span class="label">ROUTE · DOC+DPF</span>
+            </h3>
+            <div class="results-grid">
+              <div class="result-item">
+                <span class="key">DOC 体积 V<sub>DOC</sub>：</span>${formatNumber(docVol * 1000, 2)} L
+              </div>
+              <div class="result-item">
+                <span class="key">DPF 体积 V<sub>DPF</sub>：</span>${formatNumber(dpfVol * 1000, 2)} L
+              </div>
+              <div class="result-item">
+                <span class="key">DOC 尺寸（假定 L ≈ D）：</span>D ≈ ${formatNumber(docD * 1000, 0)} mm，L ≈ ${formatNumber(docL * 1000, 0)} mm
+              </div>
+              <div class="result-item">
+                <span class="key">DPF 尺寸（假定 L ≈ D）：</span>D ≈ ${formatNumber(dpfD * 1000, 0)} mm，L ≈ ${formatNumber(dpfL * 1000, 0)} mm
+              </div>
+            </div>
+            <div class="route-note">
+              <b>说明：</b>体积按空间速度 <code>SV = Q<sub>std</sub>/V</code> 反推，截面按圆柱体且假定 <code>L ≈ D</code> 给出一个初步尺寸。
+              实际选型时可根据排布空间将 <code>L/D</code> 略做调整（例如 L = 1.2D 等），再结合厂家压损曲线确定最终尺寸。<br>
+              <br>
+              <b>背压提示：</b>${backpressureHint}
+            </div>
+          </div>
+        `;
+      } else if (route === 'esp') {
+        const etaStr = document.getElementById('eta_esp').selectedOptions[0].textContent;
+        html += `
+          <div class="results-block">
+            <h3>电捕焦 ESP 设计要点
+              <span class="label">ROUTE · ESP</span>
+            </h3>
+            <div class="results-grid">
+              <div class="result-item">
+                <span class="key">比集尘面积 SCA：</span>${formatNumber(sca, 3)} m²/(m³/s)
+              </div>
+              <div class="result-item">
+                <span class="key">建议集尘极总面积 A<sub>c</sub>：</span>${formatNumber(Ac_esp, 3)} m²
+              </div>
+              <div class="result-item">
+                <span class="key">按风量选型：</span>风量 ≥ ${formatNumber(Q_m3_h, 0)} m³/h 的 ESP 型号
+              </div>
+              <div class="result-item">
+                <span class="key">目标黑烟改善：</span>${etaStr}
+              </div>
+            </div>
+            <div class="route-note">
+              <b>说明：</b>电捕焦的核心是风量匹配和有效集尘极面积。
+              这里给出的 <code>A<sub>c</sub></code> 可作为选型核对参考，用于判断某型号在当前风量下是否有足够“比集尘面积”。
+              实际效率还与烟气组成、电场强度、电源波形、积灰与清灰策略密切相关。
+            </div>
+          </div>
+        `;
+      } else if (route === 'cyclone') {
+        const etaText = document.getElementById('eta_cyc').selectedOptions[0].textContent;
+        html += `
+          <div class="results-block">
+            <h3>旋风 + 过滤设计要点
+              <span class="label">ROUTE · CYCLONE &amp; FILTER</span>
+            </h3>
+            <div class="results-grid">
+              <div class="result-item">
+                <span class="key">过滤表面流速 v<sub>f</sub>：</span>${formatNumber(vf, 2)} m/s
+              </div>
+              <div class="result-item">
+                <span class="key">建议过滤面积 A<sub>f</sub>：</span>${formatNumber(A_filter, 3)} m²
+              </div>
+              <div class="result-item">
+                <span class="key">等效圆截面直径：</span>D ≈ ${formatNumber(D_filter * 1000, 0)} mm
+              </div>
+              <div class="result-item">
+                <span class="key">目标 PM 控制水平：</span>${etaText}
+              </div>
+            </div>
+            <div class="route-note">
+              <b>说明：</b>过滤面积按 <code>A = Q / v<sub>f</sub></code> 估算，其中 <code>Q</code> 为工况体积流量、<code>v<sub>f</sub></code> 为期望过滤表面流速。
+              实际设计时可采用多筒并联、多层滤芯结构，以降低单芯压损并方便拆洗维护。旋风段尺寸可参考常用的
+              <code>D, H, a/b</code> 比例，优先保证粗颗粒分离，减轻后端滤材负担。
+            </div>
+          </div>
+        `;
+      } else if (route === 'mesh') {
+        const etaMeshText = document.getElementById('eta_mesh').selectedOptions[0].textContent;
+        html += `
+          <div class="results-block">
+            <h3>金属丝网滤芯设计要点
+              <span class="label">ROUTE · METAL MESH</span>
+            </h3>
+            <div class="results-grid">
+              <div class="result-item">
+                <span class="key">表面流速 v<sub>f,mesh</sub>：</span>${formatNumber(vf_mesh, 2)} m/s
+              </div>
+              <div class="result-item">
+                <span class="key">建议有效过滤面积 A<sub>mesh</sub>：</span>${formatNumber(A_mesh, 3)} m²
+              </div>
+              <div class="result-item">
+                <span class="key">等效单筒直径：</span>D ≈ ${formatNumber(D_mesh * 1000, 0)} mm
+              </div>
+              <div class="result-item">
+                <span class="key">目标 PM 控制水平：</span>${etaMeshText}
+              </div>
+            </div>
+            <div class="route-note">
+              <b>说明：</b>金属丝网/金属纤维捕集器可视为“低阻力准DPF”，按 <code>A = Q / v<sub>f,mesh</sub></code> 估算所需总有效过滤面积，
+              其中 <code>A<sub>mesh</sub></code> 可以由多层丝网、多芯并联来实现。<br><br>
+              <b>背压提示：</b>${backpressureHint}<br><br>
+              工程上可通过调整丝网层数、孔径（目数）和芯体数量，在目标 PM 效率与压损之间找到平衡。后续可结合压损实验或厂家样机数据进一步修正表面流速与面积。
+            </div>
+          </div>
+        `;
+      }
+
+      // 当前路线标签
+      const routeLabelMap = {
+        'doc_dpf': 'DOC+DPF 高效颗粒过滤',
+        'esp': '电捕焦 ESP 静电除烟',
+        'cyclone': '旋风 + 机械过滤',
+        'mesh': '金属丝网滤芯 准DPF'
+      };
+
+      html += `
+        <div class="results-block">
+          <h3>当前设计路线
+            <span class="label">SUMMARY</span>
+          </h3>
+          <p style="margin:4px 0 0;font-size:12px;color:var(--text-soft);">
+            已按路线：<span class="badge-route">${routeLabelMap[route] || ''}</span> 进行估算。
+            以上结果可作为与催化剂/电捕焦/过滤器厂家沟通的 <b>初步设计参考值</b>，
+            后续可叠加背压曲线、热再生策略和排放测试结果进行迭代优化。
+          </p>
+        </div>
+      `;
+
+      resultsEl.innerHTML = html;
+    });
+  });
+</script>
+</body>
+</html>
