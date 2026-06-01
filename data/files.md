@@ -16,6 +16,9 @@ SCR 研究相关资料下载，点击文件名即可下载。
 
 | 文件 | 说明 | 大小 |
 |------|------|------|
+| [control-logic-v2.pdf](/files/control-logic-v2.pdf) | SCR 系统控制逻辑（更新版）| 115 KB |
+| [us-emission-standards.pdf](/files/us-emission-standards.pdf) | 美国排放标准 | 406 KB |
+| [nozzle-test-plan.pdf](/files/nozzle-test-plan.pdf) | 喷头试验技术方案 | 206 KB |
 | [scr-control-system-report.pptx](/files/scr-control-system-report.pptx) | SCR 控制系统研发报告 PPT | 12.2 MB |
 | [scr-control-system-report.pdf](/files/scr-control-system-report.pdf) | SCR 控制系统研发报告 PDF | 110 KB |
 | [scr-nox-sensor-nh3-slip.pdf](/files/scr-nox-sensor-nh3-slip.pdf) | 基于 NOx 传感器估算氨逃逸方案 | 153 KB |
@@ -67,6 +70,7 @@ SCR 研究相关资料下载，点击文件名即可下载。
 
 | 页面 | 说明 |
 |------|------|
+| [black-smoke-scr-calculator.html](/black-smoke-scr-calculator.html) | 柴油发电机组黑烟净化设计计算工具 |
 | [laval-nozzle-cross-section.html](/laval-nozzle-cross-section.html) | 拉瓦尔喷头截面参数交互展示 |
 | [scr-nozzle-angle-comparison.html](/scr-nozzle-angle-comparison.html) | SCR 喷嘴轴向角度对比分析 |
 | [laval_nozzle_drawing.html](/laval_nozzle_drawing.html) | 拉瓦尔喷嘴设计图 |
