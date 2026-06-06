@@ -34,7 +34,7 @@ SCR 研究相关资料下载，点击文件名即可下载。
 | [diesel-engine-nox-field-calibration-guide.pdf](/files/diesel-engine-nox-field-calibration-guide.pdf) | 柴油发动机NOx排放现场标定作业指导书 | 81 KB |
 | [two-engineering-estimation-methods.pdf](/files/two-engineering-estimation-methods.pdf) | 两种工程估算方法 | 69 KB |
 | [soft-sensor-alternative-technical-approach.pdf](/files/soft-sensor-alternative-technical-approach.pdf) | 软测量替代硬件测量的技术途径 | 93 KB |
-
+| [SCR控制系统技术报告.pdf](/files/SCR控制系统技术报告.pdf) | SCR 控制系统技术报告（行业问题对比与新系统优势） | 280 KB |
 ## 硬件与工程文档
 
 | 文件 | 说明 | 大小 |
