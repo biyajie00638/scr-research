@@ -35,6 +35,8 @@ SCR 研究相关资料下载，点击文件名即可下载。
 | [two-engineering-estimation-methods.pdf](/files/two-engineering-estimation-methods.pdf) | 两种工程估算方法 | 69 KB |
 | [soft-sensor-alternative-technical-approach.pdf](/files/soft-sensor-alternative-technical-approach.pdf) | 软测量替代硬件测量的技术途径 | 93 KB |
 | [SCR控制系统技术报告.pdf](/files/SCR控制系统技术报告.pdf) | SCR 控制系统技术报告（行业问题对比与新系统优势） | 280 KB |
+| [SCR控制系统技术报告.pdf](/files/SCR%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%8A%80%E6%9C%AF%E6%8A%A5%E5%91%8A.pdf) | SCR 控制系统技术报告（行业问题对比与新系统优势） | 280 KB |
+
 ## 硬件与工程文档
 
 | 文件 | 说明 | 大小 |
