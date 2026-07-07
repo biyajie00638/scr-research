@@ -44,7 +44,7 @@ SCR 研究相关资料下载，点击文件名即可下载。
 | [nozzle-design.pdf](/files/nozzle-design.pdf) | 尿素喷射喷头设计 | 710 KB |
 | [nozzle-installation-analysis.pdf](/files/nozzle-installation-analysis.pdf) | 喷头安装方式对比分析 | 95 KB |
 | [dp-flow-error-analysis.pdf](/files/dp-flow-error-analysis.pdf) | 压差式流量检测误差分析 | 103 KB |
-| [scr-flow-measurement-problems-and-solutions.pdf](/files/scr-flow-measurement-problems-and-solutions.pdf) | SCR控制系统烟气流量检测存在的问题与解决路径探讨 | 819 KB |
+| [SCR烟气流量检测问题与解决路径探讨.pdf](/files/SCR烟气流量检测问题与解决路径探讨.pdf) | SCR控制系统烟气流量检测存在的问题与解决路径探讨 | 819 KB |
 | [long-pipeline-error-analysis.pdf](/files/long-pipeline-error-analysis.pdf) | 长管路喷射量误差分析 | 282 KB |
 | [SCR系统喷枪选择技术文章.pdf](/files/SCR系统喷枪选择技术文章.pdf) | SCR系统喷枪选择——从雾化机理到工程匹配 | 774 KB |
 
