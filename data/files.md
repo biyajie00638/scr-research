@@ -47,6 +47,8 @@ SCR 研究相关资料下载，点击文件名即可下载。
 | [SCR烟气流量检测问题与解决路径探讨.pdf](/files/SCR烟气流量检测问题与解决路径探讨.pdf) | SCR控制系统烟气流量检测存在的问题与解决路径探讨 | 819 KB |
 | [long-pipeline-error-analysis.pdf](/files/long-pipeline-error-analysis.pdf) | 长管路喷射量误差分析 | 282 KB |
 | [SCR系统喷枪选择技术文章.pdf](/files/SCR系统喷枪选择技术文章.pdf) | SCR系统喷枪选择——从雾化机理到工程匹配 | 774 KB |
+| [SCR管路及催化剂封装计算设计.pdf](/files/SCR管路及催化剂封装计算设计.pdf) | SCR系统研究系列第三篇——混合管设计与催化剂封装计算 | 863 KB |
+
 
 ## 数据表格
 
