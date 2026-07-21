@@ -47,6 +47,9 @@ export default defineConfig({
             { text: '尿素喷射分析', link: '/research/urea-injection' },
             { text: '氨逃逸与NOx', link: '/research/nh3-nox' },
             { text: '氨逃逸估算方法', link: '/research/nh3-slip-estimation' },
+            { text: '烟气流量检测', link: '/research/flow-measurement' },
+            { text: '喷枪选择', link: '/research/nozzle-selection' },
+            { text: '管路及催化剂封装', link: '/research/piping-catalyst-design' },
           ]
         }
       ],
