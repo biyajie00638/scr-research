@@ -1,7 +1,8 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withMermaid(defineConfig({
   base: '/',
   title: 'SCR脱硝系统CFD研究',
   description: '固定式工业SCR系统流场分析与优化 - 喉道临界流、气液两相雾化、尿素喷射冷区管理',
@@ -93,4 +94,4 @@ export default defineConfig({
       text: '在 GitHub 上编辑此页',
     },
   },
-})
+}))
