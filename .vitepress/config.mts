@@ -22,6 +22,7 @@ export default withMermaid(defineConfig({
       { text: '首页', link: '/' },
       { text: '项目', link: '/projects/scr-nz001' },
       { text: '研究', link: '/research/critical-flow' },
+      { text: '设计助理', link: '/research/design-assistant-validation' },
       { text: '系统', link: '/system/catalyst' },
       { text: '工具', link: '/nox-scr-calculator.html' },
       { text: '下载', link: '/data/files' },
@@ -43,6 +44,7 @@ export default withMermaid(defineConfig({
         {
           text: '核心研究',
           items: [
+            { text: '设计助理研发与验证', link: '/research/design-assistant-validation' },
             { text: '喉道临界流', link: '/research/critical-flow' },
             { text: '气液两相雾化', link: '/research/atomization' },
             { text: '尿素喷射分析', link: '/research/urea-injection' },
