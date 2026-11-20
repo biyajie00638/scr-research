@@ -25,6 +25,7 @@ export default withMermaid(defineConfig({
       { text: '设计助理', link: '/research/design-assistant-validation' },
       { text: '系统', link: '/system/catalyst' },
       { text: '工具', link: '/nox-scr-calculator.html' },
+      { text: '工程接单工作台', link: '/engineering-orders/index.html', target: '_self', rel: 'external' },
       { text: '下载', link: '/data/files' },
     ],
 
