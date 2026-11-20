@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>海外工程订单工作台</title>
+<style>:root{font-family:"Microsoft YaHei",system-ui,sans-serif;color:#172339;background:#eff3f7;--line:#dce4ee;--muted:#56647a;--blue:#1555c5}*{box-sizing:border-box}body{margin:0;display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}aside{background:#101d32;color:#d7e1ef;padding:30px 19px;display:flex;flex-direction:column;gap:42px}.brand{display:flex;gap:12px;align-items:center;font-weight:bold;font-size:18px}.brand b{background:#2563dc;color:white;border-radius:10px;padding:5px 10px;font-size:28px}.brand small,footer small{display:block;font-size:12px;color:#a2b4cd;letter-spacing:.08em;margin-top:4px}nav{display:grid;gap:8px}button,input,select,textarea{font:inherit}button{cursor:pointer;background:white;border:1px solid var(--line);color:inherit;border-radius:8px;padding:9px 13px;font-size:14px;font-weight:600}button:hover{border-color:#7196dd}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid #4384ef;outline-offset:2px}nav button{background:transparent;border-color:transparent;text-align:left;padding:13px}nav button.active{background:#23509a;color:white}footer{margin-top:auto;font-size:14px;padding:10px}header{background:white;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:16px 32px;gap:12px;font-size:14px;color:var(--muted)}.primary{background:var(--blue);color:white;border-color:var(--blue)}.content{max-width:1510px;margin:auto;padding:27px 32px}.hero{background:linear-gradient(110deg,#101f3a,#173c75);color:white;border-radius:16px;padding:27px 32px;position:relative;overflow:hidden;isolation:isolate}.hero span{color:#a8c7ff;font-size:14px}.hero p{color:#d1dff3;margin-bottom:0}.hero h1{font-size:clamp(25px,4vw,40px);margin:10px 0}.motif{position:absolute;right:6%;top:-45px;width:290px;height:290px;transform:rotate(-24deg);z-index:-1;opacity:.54;background:repeating-linear-gradient(90deg,transparent 0 23px,#6399eb38 24px 25px),repeating-linear-gradient(0deg,transparent 0 23px,#6399eb38 24px 25px);mask-image:radial-gradient(black,transparent 75%)}.motif i{display:block;border:1px solid #73aaff;border-radius:50%;position:absolute;inset:48px}.motif i:nth-child(2){inset:68px}.motif i:nth-child(3){inset:93px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:19px 0}.metrics article,.workspace,.profile article{background:white;border:1px solid var(--line);border-radius:12px}.metrics article{padding:14px 18px;border-top:3px solid #6d9aec}.metrics span{font-size:14px;color:var(--muted)}.metrics b{display:block;font-size:28px;margin-top:6px}.workspace{padding:20px}.heading,.dialogtop,.dialogfoot{display:flex;justify-content:space-between;align-items:center;gap:10px}.heading,.actions{flex-wrap:wrap}.actions{display:flex;gap:7px}h2{font-size:21px;margin:0}p{line-height:1.55}.heading p,.profile p,.empty p{color:var(--muted);margin:5px 0;font-size:14px}#filters{display:flex;flex-wrap:wrap;gap:8px;margin:17px 0}input,select,textarea{color:inherit;border:1px solid #cbd7e5;border-radius:8px;padding:9px;background:white;min-width:0;width:100%;font-size:14px}#filters>*{width:auto;max-width:100%}#filters input{flex:1;min-width:155px}label{display:grid;gap:5px;font-size:14px}textarea{min-height:72px;resize:vertical}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:880px;text-align:left;font-size:14px}td,th{padding:12px 9px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#edf3fa;white-space:nowrap}td small{display:block;margin-top:4px;color:var(--muted)}.pill{display:inline-block;padding:4px 8px;background:#eaf1fb;color:#254d87;border-radius:6px;white-space:nowrap}.empty{text-align:center;padding:30px 12px 26px;border:1px dashed #c8d6e6;border-radius:12px;background:#f7faff}.empty b{display:block;margin:10px 0 4px}.empty button{margin-top:12px}.profile{margin-top:20px}.profile>div,.sources{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.profile article,.sources article{padding:15px}.profile h3,.sources h3{font-size:16px;margin:0 0 6px}.sources article{border:1px solid var(--line);border-radius:10px}.sources a{color:var(--blue)}dialog{width:min(790px,94vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:14px;padding:0;color:inherit}dialog::backdrop{background:#071325aa}.dialogtop,.dialogfoot{position:sticky;background:white;padding:14px 18px;z-index:1}.dialogtop{top:0;border-bottom:1px solid var(--line)}.dialogfoot{bottom:0;border-top:1px solid var(--line);justify-content:flex-end;flex-wrap:wrap}#fields{padding:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}#fields .wide{grid-column:1/-1}#prep{margin:0 18px 16px;padding:12px;border-radius:8px;background:#eef4ff;font-size:14px;line-height:1.7;white-space:pre-wrap}#notice{position:fixed;bottom:20px;right:20px;background:#14294d;color:white;padding:10px 14px;border-radius:8px;z-index:3}#notice:empty{display:none}@media(max-width:850px){body{display:block}aside{padding:12px 16px;gap:9px}nav{display:flex;flex-wrap:wrap}nav button{padding:7px 9px}footer{display:none}header,.content{padding:14px 16px}}@media(max-width:520px){.metrics,#fields{grid-template-columns:repeat(2,1fr)}.profile>div,.sources{grid-template-columns:1fr}.hero,.workspace{padding:16px}}
+</style>
+<body>
+<aside><div class="brand"><b>⟐</b><div>工程接单台<small>ENGINEERING DESK</small></div></div><nav><button data-view="all" class="active">机会台账</button><button data-view="fit">适合我的项目</button><button data-view="follow">申请与跟进</button><button data-view="sources">采集入口</button></nav><footer>个人工程工作台<br><small>记录保存在当前浏览器</small></footer></aside>
+<main><header><div>工程业务 / <strong id="crumb">机会台账</strong></div><button id="add" class="primary">＋ 新建候选项目</button></header>
+<div class="content">
+<section class="hero"><div><span>远程工程 · 项目筛选</span><h1>海外工程订单工作台</h1><p>跟踪从发现机会、技术筛选到报价与交付的全过程。</p></div><div class="motif" aria-hidden="true"><i></i><i></i><i></i></div></section>
+<section id="metrics" class="metrics"></section>
+<section class="workspace" id="workspace">
+<div class="heading"><div><h2 id="view-title">机会台账</h2><p id="view-note">按远程条件、技术匹配与交付风险筛选候选项目。</p></div><div class="actions"><button id="restore">导入备份</button><button id="backup">备份</button><button id="export">导出清单</button><input id="file" type="file" accept=".json" hidden></div></div>
+<div id="filters"></div><div id="results"></div>
+</section>
+<section class="profile"><h2>能力与优先方向</h2><div><article><h3>SCR 工程</h3><p>柴油机及燃气轮机 SCR 方案、混合管尺寸、尿素喷射、催化剂选型与背压复核。</p></article><article><h3>工程计算与工具</h3><p>8 合 1 SCR 计算、scr-design-assistant、计算表与网页工具、设计文件复核。</p></article><article><h3>工业自动化与嵌入式</h3><p>电气工程、PLC 自动控制、单片机、机械设计与工程项目交付。</p></article></div></section>
+</div></main>
+<dialog id="editor"><form id="form"><div class="dialogtop"><h2 id="edit-title">候选项目</h2><button type="button" id="close" aria-label="关闭">×</button></div><div id="fields"></div><section id="prep"></section><div class="dialogfoot"><button type="button" id="archive">归档</button><button type="button" id="material">下载申请准备</button><button class="primary">保存项目</button></div></form></dialog>
+<div id="notice" role="status"></div>
+<script>const $ = id => document.getElementById(id);
+const unknown = '待确认';
+const key = 'engineering-orders-v1';
+const states = ['候选','待澄清','报价准备','已申请','洽谈中','已成交','未成交','已归档'];
+const categories = ['SCR 方案设计','工程复核','远程技术顾问','计算工具开发','PLC 与电气控制','嵌入式开发','机械设计','其他工程任务'];
+const levels = ['高','中','低'];
+const fields = [
+  ['title','项目名称','text'], ['category','技术方向',categories], ['client','客户 / 地区','text'],
+  ['source','平台或项目来源','text'], ['url','原始链接','url'], ['remote','远程条件',['全远程','短期驻场','长期驻场']],
+  ['fit','技术匹配度',levels], ['difficulty','交付难度',levels], ['hours','预计工时（小时）','number'],
+  ['tools','所需软件 / 编程语言','text'], ['language','沟通语言 / 会议要求','text'], ['deliverable','交付物',['技术文档','工程计算','设计复核','软件工具','图纸或模型','其他']],
+  ['compliance','合规风险',levels], ['payment','付款风险',levels], ['budget','预算 / 币种','text'],
+  ['priority','优先级',levels], ['status','申请状态',states], ['due','下次跟进日期','date'],
+  ['requirements','客户需求与验收标准','textarea'], ['basis','技术匹配与风险判断依据','textarea'],
+  ['questions','待确认问题','textarea'], ['quote','报价准备（范围、工时、里程碑、付款条件）','textarea'],
+  ['materials','申请材料 / 可展示案例','textarea'], ['next','后续行动','textarea'], ['feedback','申请反馈与结果','textarea']
+];
+const tabs = {
+  all:['机会台账','按远程条件、技术匹配与交付风险筛选候选项目。'],
+  fit:['适合我的项目','显示全远程、技术匹配中或高、可通过文件或软件交付且无已标记高风险的机会。风险待确认的项目仍需核实。'],
+  follow:['申请与跟进','集中查看待澄清、报价准备、已申请、洽谈中及已成交项目。'],
+  sources:['采集入口','打开公开搜索入口，核对原始公告后，将链接和已知条件录入台账。']
+};
+let records = [];
+let view = 'all';
+let editing;
+try { records = JSON.parse(localStorage.getItem(key) || '[]'); }
+catch { setTimeout(() => notify('读取记录失败，请尝试导入备份。'),0); }
+const esc = value => String(value ?? '').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const show = v => v || unknown;
+const options = (items, first) => '<option value="">'+first+'</option>'+items.map(v=>'<option>'+esc(v)+'</option>').join('');
+let timer;
+function notify(message) {
+  $('notice').textContent = message;
+  clearTimeout(timer);
+  timer = setTimeout(() => $('notice').textContent = '',3500);
+}
+function save(next) {
+  try { localStorage.setItem(key,JSON.stringify(next)); }
+  catch { notify('保存失败，请检查浏览器可用空间。'); return false; }
+  records = next;
+  render();
+  return true;
+}
+function eligible(r) {
+  return r.remote === '全远程' && ['高','中'].includes(r.fit) &&
+    ['技术文档','工程计算','设计复核','软件工具','图纸或模型'].includes(r.deliverable) &&
+    r.compliance !== '高' && r.payment !== '高' && !['已归档','未成交','已成交'].includes(r.status);
+}
+function follows(r) { return states.slice(1,6).includes(r.status); }
+function filtered() {
+  const query = ($('search')?.value || '').trim().toLowerCase();
+  const sort = $('sort')?.value;
+  const selectors = ['category','remote','status','fit','difficulty','compliance','payment','priority'];
+  const rank = v => ({高:3,中:2,低:1}[v] || 0);
+  const selected = records.filter(r => (view !== 'fit' || eligible(r)) && (view !== 'follow' || follows(r)) &&
+    selectors.every(f => !$('f-'+f)?.value || show(r[f]) === $('f-'+f).value) &&
+    JSON.stringify(r).toLowerCase().includes(query));
+  return selected.sort((a,b) => {
+    if(sort === 'hours') return (a.hours ? Number(a.hours) : Infinity) - (b.hours ? Number(b.hours) : Infinity) || 0;
+    if(sort === 'due') return (a.due || '9999').localeCompare(b.due || '9999');
+    return rank(b.priority)-rank(a.priority) || rank(b.fit)-rank(a.fit) || String(b.updated).localeCompare(String(a.updated));
+  });
+}
+function filters() {
+  if(view === 'sources'){ $('filters').innerHTML = ''; return; }
+  const selectors = ['category','remote','status','fit','difficulty','compliance','payment','priority'];
+  $('filters').innerHTML = '<input id="search" type="search" aria-label="搜索记录" placeholder="搜索项目、软件或语言">'+
+    selectors.map(id=>{const [,label,values]=fields.find(f=>f[0]===id);return '<select id="f-'+id+'" aria-label="'+label+'">'+options([...values,unknown],'全部'+label)+'</select>';}).join('')+
+    '<select id="sort" aria-label="排序"><option value="">按优先级</option><option value="hours">按工时</option><option value="due">按跟进日期</option></select>';
+}
+function render() {
+  $('metrics').innerHTML = [['候选与跟进',records.filter(r=>!['已归档','已成交','未成交'].includes(r.status)).length],['适合我的项目',records.filter(eligible).length],['申请与跟进',records.filter(follows).length],['已成交',records.filter(r=>r.status==='已成交').length]].map(([l,n])=>'<article><span>'+l+'</span><b>'+n+'</b></article>').join('');
+  $('crumb').textContent = $('view-title').textContent = tabs[view][0];
+  $('view-note').textContent = tabs[view][1];
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+  $('export').disabled = view === 'sources';
+  if(view === 'sources'){
+    $('results').innerHTML = '<div class="sources">'+[
+      ['Upwork','https://www.upwork.com/nx/search/jobs/','SCR design review · PLC remote · embedded firmware'],
+      ['Freelancer','https://www.freelancer.com/jobs/','emissions engineering · electrical controls · calculation spreadsheet'],
+      ['LinkedIn Jobs','https://www.linkedin.com/jobs/','remote engineering consultant · emissions aftertreatment · design review']
+    ].map(([name,url,query])=>'<article><h3>'+name+'</h3><p>'+query+'</p><a href="'+url+'" target="_blank" rel="noopener noreferrer">打开项目搜索</a></article>').join('')+'</div>';
+    return;
+  }
+  const items = filtered();
+  if(!items.length){
+    $('results').innerHTML = '<div class="empty"><b>'+(records.length?'当前视图没有匹配项目':'台账暂无候选项目')+'</b><p>'+(records.length?'调整筛选条件或切换视图。':'添加一条已发现的机会，记录来源及已知信息。')+'</p><button id="empty-action">'+(records.length?'重置并查看台账':'录入首条机会')+'</button></div>';
+    $('empty-action').onclick = () => records.length ? switchView('all') : openEditor();
+    return;
+  }
+  $('results').innerHTML = '<div class="table-wrap"><table><thead><tr>'+['项目 / 来源','匹配 / 难度','远程 / 工时','软件 / 语言','合规 / 付款','状态 / 优先级','下一步 / 日期','操作'].map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+
+    items.map(r=>{
+      const cell=(a,b)=>'<td>'+esc(show(a))+'<small>'+esc(show(b))+'</small></td>';
+      return '<tr>'+cell(r.title,[r.category,r.source].filter(Boolean).join(' · '))+cell(r.fit,r.difficulty)+cell(r.remote,r.hours?r.hours+' 小时':'')+cell(r.tools,r.language)+cell(r.compliance,r.payment)+cell(r.status,r.priority)+cell(r.next,r.due)+'<td><button data-edit="'+esc(r.id)+'">查看 / 编辑</button></td></tr>';
+    }).join('')+'</tbody></table></div>';
+}
+function switchView(next){ view = next; filters(); render(); }
+function draft(){ return Object.fromEntries(fields.map(([id])=>[id,$('form').elements[id].value.trim()])); }
+function prep(r){
+  const caseNotes = {
+    'SCR 方案设计':'可准备脱敏的混合管尺寸、尿素喷射或压损校核样例。向客户确认烟气流量及基准、温压、NOx、允许背压和空间。',
+    'PLC 与电气控制':'可准备脱敏的 I/O 表、控制逻辑或测试记录。确认 PLC 型号、软件版本、联锁和现场调试责任。',
+    '嵌入式开发':'可准备脱敏的固件模块或调试记录。确认 MCU、工具链、硬件样机及验收用例。',
+    '计算工具开发':'可准备 8 合 1 SCR 计算工具的脱敏案例。确认公式口径、输入数据、验证样例和交付格式。'
+  };
+  return ['申请准备｜'+show(r.title),'',
+    ...fields.filter(([id])=>id!=='title').map(([id,label])=>label+'：'+show(r[id])),
+    '', '建议准备',caseNotes[r.category] || '准备同类工程的脱敏样例，明确交付边界、验收标准及可远程完成的环节。',
+    '提交前核实客户身份、资料使用权限、付款里程碑，以及是否支持文字沟通。'
+  ].join('\n');
+}
+function openEditor(record){
+  editing = record;
+  $('edit-title').textContent = record ? '编辑候选项目' : '新建候选项目';
+  $('fields').innerHTML = fields.map(([id,label,type])=>{
+    const name = ' name="'+id+'"';
+    const control = Array.isArray(type)?'<select'+name+'>'+options(type,unknown)+'</select>':
+      type==='textarea'?'<textarea'+name+' placeholder="'+unknown+'"></textarea>':
+      '<input'+name+' type="'+type+'" '+(id==='title'?'required maxlength="200" ':'')+(id==='hours'?'min="0" step="0.5" ':'')+'placeholder="'+unknown+'">';
+    return '<label class="'+(type==='textarea'?'wide':'')+'">'+label+control+'</label>';
+  }).join('');
+  fields.forEach(([id])=>$('form').elements[id].value=record?.[id] || (id==='status'?'候选':''));
+  $('archive').hidden = !record || record.status==='已归档';
+  updatePrep();
+  $('editor').showModal();
+}
+function updatePrep(){ $('prep').textContent = '申请准备包含项目记录、待确认问题、报价、后续行动和方向对应的准备建议。'; }
+function download(name,content,type){
+  const href=URL.createObjectURL(new Blob([content],{type}));
+  const link=document.createElement('a');
+  link.href=href;
+  link.download=name;
+  link.click();
+  setTimeout(()=>URL.revokeObjectURL(href),1000);
+}
+$('form').onsubmit = e => {
+  e.preventDefault();
+  const data=draft();
+  if(!data.title){ notify('请输入项目名称。'); return; }
+  const item={...data,id:editing?.id || (crypto.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36).slice(2)),updated:new Date().toISOString()};
+  if(save([...records.filter(r=>r.id!==item.id),item])){ $('editor').close(); notify('项目已保存。'); }
+};
+$('archive').onclick = () => {
+  if(save(records.map(r=>r.id===editing.id ? {...r,status:'已归档',updated:new Date().toISOString()} : r))){
+    $('editor').close();
+    notify('项目已归档。');
+  }
+};
+$('close').onclick = () => $('editor').close();
+$('material').onclick = () => download('申请准备.txt',prep(draft()),'text/plain;charset=utf-8');
+$('backup').onclick = () => download('工程机会备份.json',JSON.stringify(records,null,2),'application/json');
+$('restore').onclick = () => $('file').click();
+$('file').onchange = async () => {
+  try {
+    const data=JSON.parse(await $('file').files[0].text());
+    if(!Array.isArray(data) || data.some(r=>!r || typeof r.id!=='string' || typeof r.title!=='string' || !r.title.trim())) throw Error();
+    const merged=new Map(records.map(r=>[r.id,r]));
+    for(const entry of data){
+      const item={id:entry.id,updated:typeof entry.updated==='string'?entry.updated:''};
+      for(const [id,,type] of fields){
+        const value = typeof entry[id]==='string' ? entry[id] : '';
+        item[id] = Array.isArray(type) && !type.includes(value) ? '' : value;
+      }
+      if(!merged.has(item.id) || item.updated > merged.get(item.id).updated) merged.set(item.id,item);
+    }
+    if(save([...merged.values()])) notify('备份已合并，保留同一记录的较新版本。');
+  } catch { notify('无法读取此备份，请选择台账导出的 JSON 文件。'); }
+  $('file').value='';
+};
+$('export').onclick = () => {
+  const rows=filtered();
+  if(!rows.length){notify('当前视图没有可导出的项目。');return;}
+  const csv=v=>'"'+String(v).replace(/^[\s]*[=+\-@\t\r]/,"'$&").replace(/"/g,'""')+'"';
+  const output=[fields.map(([,label])=>csv(label)).join(','),...rows.map(r=>fields.map(([id])=>csv(show(r[id]))).join(','))];
+  download(tabs[view][0]+'.csv','\ufeff'+output.join('\r\n'),'text/csv;charset=utf-8');
+};
+$('add').onclick = () => openEditor();
+$('filters').addEventListener('input',render);
+$('results').onclick = e => {
+  const id=e.target.closest('[data-edit]')?.dataset.edit;
+  if(id) openEditor(records.find(r=>r.id===id));
+};
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>switchView(b.dataset.view));
+switchView('all');
+</script>
+</body></html>
+
