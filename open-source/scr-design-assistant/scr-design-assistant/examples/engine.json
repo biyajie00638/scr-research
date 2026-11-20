@@ -1,0 +1,77 @@
+{
+  "calculations": [
+    {
+      "id": "hot-flow",
+      "operation": "state_flow",
+      "inputs": {
+        "volume_m3_h": 3600,
+        "from_temperature_c": 0,
+        "from_pressure_kpa_abs": 101.325,
+        "to_temperature_c": 360,
+        "to_pressure_kpa_abs": 100
+      }
+    },
+    {
+      "id": "inlet-nox-concentration",
+      "operation": "nox_from_concentration",
+      "inputs": {
+        "concentration_mg_standard_m3": 250,
+        "concentration_standard_temperature_c": 0,
+        "concentration_standard_pressure_kpa_abs": 101.325,
+        "concentration_gas_basis": "dry",
+        "volume_standard_m3_h": 3600,
+        "flow_standard_temperature_c": 0,
+        "flow_standard_pressure_kpa_abs": 101.325,
+        "flow_gas_basis": "wet",
+        "water_mole_fraction_wet": 0.10,
+        "measured_o2_dry_percent": 10,
+        "reference_o2_dry_percent": 3,
+        "oxidant_o2_dry_percent": 21
+      }
+    },
+    {
+      "id": "inlet-nox-ef",
+      "operation": "nox_from_ef",
+      "inputs": {
+        "power_kw": 450,
+        "emission_factor_g_kwh": 1.1
+      }
+    },
+    {
+      "id": "theoretical-def",
+      "operation": "def_demand",
+      "inputs": {
+        "inlet_nox_as_no2_kg_h": 0.495,
+        "removal_fraction": 0.8,
+        "mode": "inlet_anr",
+        "ratio": 0.95,
+        "def_urea_mass_fraction": 0.325,
+        "def_density_kg_l": 1.09
+      }
+    },
+    {
+      "id": "mixing-duct",
+      "operation": "duct_screen",
+      "inputs": {
+        "actual_flow_m3_h": 8455.212355848436,
+        "length_m": 3.5,
+        "cross_section_m2": 0.2,
+        "target_velocity_m_s": 12
+      }
+    },
+    {
+      "id": "catalyst-with-empty-spare-slot",
+      "operation": "catalyst_screen",
+      "inputs": {
+        "volume_standard_m3_h": 3600,
+        "standard_temperature_c": 0,
+        "standard_pressure_kpa_abs": 101.325,
+        "gas_basis": "wet",
+        "installed_effective_volume_l": 240,
+        "purchased_volume_l": 300,
+        "empty_reserved_volume_l": 60,
+        "ghsv_limit_h_inv": 14000
+      }
+    }
+  ]
+}
